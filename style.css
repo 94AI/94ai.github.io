@@ -1,0 +1,254 @@
+/* --- 顏色與字型變數 (All Might 英雄色板) --- /
+:root {
+--color-bg-dark: #08080C;       / 極致深黑 (基底色) /
+--color-text-light: #f0f0f0;    / 基礎文字色 /
+--color-hero-blue: #0056B3;     / 英雄藍 (主色，濃郁的深藍) /
+--color-hero-yellow: #FFD700;   / 英雄黃 (力量色，用於點綴/光暈) /
+--color-hero-red: #D90000;      / 英雄紅 (次要色，用於 CTA/強調) /
+--color-card-bg: #1A2128;       / 卡片背景 */
+}
+
+/* --- 全域設定與基本樣式 --- */
+body {
+font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+line-height: 1.6;
+margin: 0;
+padding: 0;
+background-color: var(--color-bg-dark);
+color: var(--color-text-light);
+transition: background-color 0.5s;
+}
+.container {
+max-width: 1100px;
+margin: 0 auto;
+padding: 20px;
+}
+
+/* --- 導覽列 (Header) --- /
+header {
+background-color: var(--color-card-bg);
+padding: 1rem 0;
+box-shadow: 0 0 15px var(--color-hero-blue);
+border-bottom: 3px solid var(--color-hero-red);
+}
+/ LOGO 層：置中 /
+header .logo-bar {
+display: flex;
+justify-content: center;
+padding-bottom: 10px;
+}
+/ 分頁層：置中 */
+header .nav-bar {
+display: flex;
+justify-content: center;
+}
+
+/* --- LOGO 圖片樣式調整 --- /
+header .logo-link {
+text-decoration: none;
+display: flex;
+align-items: center;
+width: 150px;
+height: 40px;
+overflow: hidden;
+}
+header .logo-link img {
+height: 70px; / LOGO 圖片高度 /
+margin-top: -15px;
+width: auto;
+filter: drop-shadow(0 0 8px var(--color-hero-yellow));
+transition: filter 0.3s;
+}
+header .logo-link img:hover {
+filter: drop-shadow(0 0 12px var(--color-hero-yellow));
+}
+/ --- LOGO 圖片樣式結束 --- */
+
+header nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+display: flex;
+}
+header nav ul li {
+margin: 0 15px;
+}
+header nav ul li a {
+text-decoration: none;
+color: var(--color-hero-yellow);
+font-size: 1.6rem; /* 分頁字體加大到 1.6rem */
+font-weight: 900;
+transition: color 0.3s, text-shadow 0.3s;
+letter-spacing: 2px;
+}
+header nav ul li a:hover {
+color: var(--color-hero-red);
+text-shadow: 0 0 8px var(--color-hero-red);
+}
+
+/* --- Hero Section --- */
+.hero {
+text-align: center;
+padding: 120px 20px;
+
+background-image: url('/images/94ai_square.jpg'); 
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+
+position: relative;
+z-index: 1; 
+color: var(--color-hero-yellow);
+
+box-shadow: inset 0 -10px 20px rgba(255, 215, 0, 0.4); 
+border-bottom: 5px solid var(--color-hero-red);
+
+}
+.hero::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.5);
+z-index: -1;
+}
+
+.hero h1 {
+font-size: 3.8rem;
+margin-bottom: 15px;
+color: var(--color-hero-yellow);
+text-shadow: 0 0 20px var(--color-hero-yellow);
+}
+.hero p {
+font-size: 1.5rem;
+margin-bottom: 50px;
+color: #fff;
+opacity: 0.9;
+}
+.cta-button {
+display: inline-block;
+background-color: var(--color-hero-red);
+color: var(--color-hero-yellow);
+padding: 18px 50px;
+text-decoration: none;
+border-radius: 8px;
+font-weight: 900;
+font-size: 1.2rem;
+transition: background-color 0.3s, box-shadow 0.3s;
+box-shadow: 0 0 20px var(--color-hero-red);
+border: 2px solid var(--color-hero-yellow);
+}
+.cta-button:hover {
+background-color: #ff3333;
+box-shadow: 0 0 40px var(--color-hero-red);
+transform: scale(1.05);
+}
+
+/* --- 內容區塊 (通用樣式，包含藍色背景) --- /
+.content-section {
+padding: 80px 20px;
+text-align: center;
+background-color: var(--color-hero-blue); / 設定為英雄藍 /
+border-top: 5px solid var(--color-hero-blue);
+box-shadow: 0 0 40px rgba(0, 86, 179, 0.4);
+min-height: 70vh; / 確保內容區塊足夠撐開畫面 /
+}
+.content-section h2 {
+font-size: 2.8rem;
+margin-bottom: 40px;
+color: var(--color-hero-yellow);
+text-shadow: 0 0 10px var(--color-hero-yellow);
+border-bottom: 2px solid var(--color-hero-red);
+display: inline-block;
+padding-bottom: 5px;
+}
+.content-section .cards {
+display: flex;
+justify-content: space-around;
+flex-wrap: wrap;
+margin-top: 30px;
+}
+.content-section .card {
+background-color: var(--color-card-bg);
+padding: 35px;
+margin: 20px;
+border-radius: 8px;
+border: 3px solid var(--color-hero-blue); / 邊框加粗，強化藍色 /
+box-shadow: 0 0 30px rgba(0, 86, 179, 0.7); / 陰影加強，強化藍色 */
+flex-basis: calc(33% - 40px);
+box-sizing: border-box;
+transition: transform 0.3s, box-shadow 0.3s;
+}
+.content-section .card:hover {
+transform: translateY(-10px);
+box-shadow: 0 0 40px var(--color-hero-yellow);
+}
+.card h3 {
+color: var(--color-hero-red);
+font-size: 1.8rem;
+margin-top: 0;
+text-shadow: 0 0 5px var(--color-hero-red);
+}
+.card p {
+color: #ccc;
+min-height: 48px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+/* --- 頁尾 (Footer) --- */
+footer {
+text-align: center;
+padding: 30px;
+background-color: var(--color-hero-red);
+color: var(--color-hero-yellow);
+border-top: 5px solid var(--color-hero-yellow);
+text-shadow: 0 0 5px var(--color-hero-yellow);
+}
+footer p {
+margin: 0;
+opacity: 0.9;
+}
+
+/* --- BLOG/CONTACT 頁面專屬樣式 --- */
+.tab-nav button {
+background-color: var(--color-card-bg);
+color: var(--color-text-light);
+border: 2px solid var(--color-hero-blue);
+padding: 12px 30px;
+font-size: 1.1rem;
+font-weight: bold;
+cursor: pointer;
+transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+border-radius: 6px;
+margin: 0 10px;
+}
+.tab-nav button:hover {
+background-color: var(--color-hero-blue);
+box-shadow: 0 0 15px var(--color-hero-blue);
+}
+.tab-nav button.active {
+background-color: var(--color-hero-red);
+color: var(--color-hero-yellow);
+box-shadow: 0 0 20px var(--color-hero-red);
+border: 2px solid var(--color-hero-yellow);
+}
+
+.article-card, .tool-card, .transmission-box {
+background-color: var(--color-card-bg);
+border: 3px solid var(--color-hero-blue);
+box-shadow: 0 0 30px rgba(0, 86, 179, 0.7);
+}
+
+/* --- 響應式設計 (RWD for Mobile) --- */
+@media (max-width: 768px) {
+header nav ul li a {
+font-size: 1.3rem;
+}
+.content-section .cards {
+flex-basis: 100%;
+}
+}
