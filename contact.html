@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>咒力傳輸 - 94AI 組織中樞</title>
+    <!-- 內嵌 CSS 樣式，確保所有頁面風格一致 -->
+    <style>
+        /* --- 顏色與字型變數 (All Might 英雄色板) --- */
+        :root {
+            --color-bg-dark: #08080C;       /* 極致深黑 (基底色) */
+            --color-text-light: #f0f0f0;    /* 基礎文字色 */
+            --color-hero-blue: #0056B3;     /* 英雄藍 (主色，濃郁的深藍) */
+            --color-hero-yellow: #FFD700;   /* 英雄黃 (力量色，用於點綴/光暈) */
+            --color-hero-red: #D90000;      /* 英雄紅 (次要色，用於 CTA/強調) */
+            --color-card-bg: #1A2128;       /* 卡片背景 */
+        }
+
+        /* --- 全域設定與基本樣式 --- */
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-bg-dark);
+            color: var(--color-text-light);
+            transition: background-color 0.5s;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- 導覽列 (Header) --- */
+        header {
+            background-color: var(--color-card-bg);
+            padding: 1rem 0;
+            box-shadow: 0 0 15px var(--color-hero-blue);
+            border-bottom: 3px solid var(--color-hero-red); 
+        }
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- LOGO 圖片樣式調整 --- */
+        header .logo-link {
+            text-decoration: none;
+            display: flex; 
+            align-items: center;
+            width: 150px; 
+            height: 40px;
+            overflow: hidden; 
+        }
+        header .logo-link img {
+            height: 60px; 
+            margin-top: -10px; 
+            width: auto;
+        }
+        header .logo-link img:hover {
+            opacity: 0.8;
+        }
+        /* --- LOGO 圖片樣式結束 --- */
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        header nav ul li {
+            margin-left: 30px;
+        }
+        header nav ul li a {
+            text-decoration: none;
+            color: var(--color-hero-yellow);
+            font-size: 1.15rem; 
+            font-weight: 900; 
+            transition: color 0.3s, text-shadow 0.3s;
+            letter-spacing: 2px;
+        }
+        header nav ul li a:hover {
+            color: var(--color-hero-red); 
+            text-shadow: 0 0 8px var(--color-hero-red);
+        }
+        /* --- 頁尾 (Footer) --- */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--color-hero-red); 
+            color: var(--color-hero-yellow);
+            border-top: 5px solid var(--color-hero-yellow);
+            text-shadow: 0 0 5px var(--color-hero-yellow);
+        }
+        footer p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        /* --- 響應式設計 (RWD for Mobile) --- */
+        @media (max-width: 768px) {
+            header nav {
+                flex-direction: column;
+            }
+            header nav ul {
+                margin-top: 15px;
+            }
+            header nav ul li {
+                margin: 0 10px;
+            }
+            header nav ul li a {
+                font-size: 1rem; 
+            }
+        }
+        /* ------------------------------------- */
+        /* contact.html 專屬樣式 */
+        .contact-section {
+            padding: 60px 20px;
+            text-align: center;
+            min-height: 70vh;
+        }
+        .transmission-box {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 40px;
+            background-color: var(--color-card-bg);
+            border-radius: 12px;
+            border: 3px solid var(--color-hero-yellow); /* 英雄黃邊框 */
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        .transmission-box h2 {
+            color: var(--color-hero-red);
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px var(--color-hero-red);
+            border-bottom: 2px solid rgba(217, 0, 0, 0.5);
+            padding-bottom: 10px;
+        }
+        .contact-item {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--color-hero-yellow);
+        }
+        .contact-item a {
+            color: var(--color-hero-yellow);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .contact-item a:hover {
+            color: var(--color-hero-red);
+            text-shadow: 0 0 5px var(--color-hero-red);
+        }
+        .mission-button {
+            display: inline-block;
+            background-color: var(--color-hero-blue); 
+            color: var(--color-hero-yellow); 
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            margin-top: 30px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 15px var(--color-hero-blue);
+        }
+        .mission-button:hover {
+            background-color: #007bff;
+            box-shadow: 0 0 30px var(--color-hero-yellow);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/94ai-website/index.html" class="logo-link">
+                    <!-- LOGO 路徑修正為專案絕對路徑 -->
+                    <img src="/94ai-website/images/plus_ultra_logo.png" alt="94AI PLUS ULTRA Logo"> 
+                </a>
+                <ul>
+                    <li><a href="/94ai-website/index.html">領域展開</a></li>
+                    <li><a href="/94ai-website/blog.html">特級咒物</a></li> 
+                    <li><a href="/94ai-website/contact.html">咒力傳輸</a></li> 
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact-section">
+            <div class="container">
+                <h1 style="color: var(--color-hero-red); text-shadow: 0 0 15px var(--color-hero-red);">📞 咒力傳輸</h1>
+                <p style="font-size: 1.1rem; color: #ccc;">此為 94AI 組織的最高指令傳輸通道。請使用正確的術式進行溝通。</p>
+                
+                <div class="transmission-box">
+                    <h2>// 接收協議 //</h2>
+                    
+                    <div class="contact-item">
+                        <p style="color: #fff;">**最高指令傳達 (商業合作):**</p>
+                        <a href="mailto:partner@94ai.com.tw">partner@94ai.com.tw</a>
+                    </div>
+
+                    <div class="contact-item">
+                        <p style="color: #fff;">**情報分享與回報 (網站建議):**</p>
+                        <a href="mailto:feedback@94ai.com.tw">feedback@94ai.com.tw</a>
+                    </div>
+                    
+                    <p style="margin-top: 40px; color: #ccc;">**組織簡介（關於我們）：**</p>
+                    <p style="color: #aaa; font-size: 1rem;">94AI 是一個致力於 AI 領域的特級咒術組織。我們的使命是將 AI 知識轉化為實戰咒力，培養出新一代的英雄級咒術師。我們在領域展開中等待你的到來。</p>
+
+                    <!-- 連結到 GitHub Discussions 論壇 -->
+                    <a href="#YOUR_GITHUB_DISCUSSIONS_LINK#" class="mission-button" target="_blank">進入夥伴集結地 (GITHUB DISCUSSIONS)</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <!-- 最終頁尾版本 -->
+            <p>I AM HERE! | 94AI.COM.TW ONE FOR ALL 2025 | BEYOND THE LIMIT!</p>
+        </div>
+    </footer>
+</body>
+</html>
