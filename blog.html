@@ -97,10 +97,16 @@
             margin: 0;
             opacity: 0.9;
         }
-        /* --- 響應式設計 (RWD for Mobile) --- */
+       /* --- 響應式設計 (RWD for Mobile) --- */
         @media (max-width: 768px) {
             header nav {
                 flex-direction: column;
+                /* [新增] 讓整個導覽列的內容在手機上置中 */
+                align-items: center; 
+            }
+            /* [新增] 讓 LOGO 連結區塊本身置中 */
+            header .logo-link {
+                margin: 0 auto; 
             }
             header nav ul {
                 margin-top: 15px;
@@ -110,6 +116,13 @@
             }
             header nav ul li a {
                 font-size: 1rem; 
+            }
+            /* 以下專門針對 index.html 的卡片內容 (僅 index.html 需要保留) */
+            .content-section .card {
+                flex-basis: 100%;
+            }
+            .card p {
+                min-height: auto;
             }
         }
         /* --- 以下是 blog 頁面專屬的 CSS 樣式 --- */
@@ -272,3 +285,4 @@
     </script>
 </body>
 </html>
+
