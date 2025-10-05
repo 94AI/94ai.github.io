@@ -1,309 +1,159 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>94AI - PLUS ULTRA 智能力量</title>
-    <!-- 確保網頁不會使用舊的緩存 -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
-    <!-- 內嵌 CSS 樣式，確保所有頁面風格一致 -->
-    <style>
-        /* --- 顏色與字型變數 (All Might 英雄色板) --- */
-        :root {
-            --color-bg-dark: #08080C;       /* 極致深黑 (基底色) */
-            --color-text-light: #f0f0f0;    /* 基礎文字色 */
-            --color-hero-blue: #0056B3;     /* 英雄藍 (主色，濃郁的深藍) */
-            --color-hero-yellow: #FFD700;   /* 英雄黃 (力量色，用於點綴/光暈) */
-            --color-hero-red: #D90000;      /* 英雄紅 (次要色，用於 CTA/強調) */
-            --color-card-bg: #1A2128;       /* 卡片背景 */
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>94AI｜PLUS ULTRA 智能力量</title>
+  <meta name="description" content="94AI：用 PLUS ULTRA 精神，傳授最先進的 AI 技術訓練與實作，讓你解鎖屬於自己的智能個性 (AI Quirk)。" />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://94ai.com.tw/" />
+  <link rel="preload" as="image" href="/images/94ai_square.png" />
+  <style>
+    body {margin:0;font-family:system-ui,Roboto,'Noto Sans TC',sans-serif;background:#08080C;color:#f5f7fa;scroll-behavior:smooth;}
+    header {position:sticky;top:0;z-index:1000;background:#0f1419;border-bottom:3px solid #C40000;box-shadow:0 6px 24px rgba(0,0,0,.35);text-align:center;padding:10px 0;}
+    .logo-link img {height:100px;width:auto;filter:drop-shadow(0 0 10px #FFD700);transition:filter .3s;}
+    .logo-link img:hover {filter:drop-shadow(0 0 15px #FFD700);}
+    nav ul {list-style:none;margin:10px 0 0;padding:0;display:flex;justify-content:center;gap:40px;}
+    nav a {text-decoration:none;color:#FFD700;font-weight:900;font-size:1.8rem;letter-spacing:.1em;text-shadow:0 0 6px rgba(255,215,0,.3);transition:.3s;}
+    nav a:hover {color:#fff;text-shadow:0 0 12px #C40000;}
+    .hero {position:relative;text-align:center;padding:100px 20px;background:url('/images/94ai_square.png') center/cover no-repeat;border-bottom:5px solid #C40000;color:#FFD700;}
+    .hero::before {content:'';position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:-1;}
+    .hero h1 {font-size:3rem;margin-bottom:15px;text-shadow:0 0 20px #FFD700;}
+    .hero p {font-size:1.3rem;margin-bottom:40px;color:#fff;opacity:.9;}
+    .cta-button {display:inline-block;background:#C40000;color:#FFD700;padding:15px 40px;border-radius:10px;border:2px solid #FFD700;font-weight:900;text-decoration:none;transition:.3s;}
+    .cta-button:hover {background:#ff3333;transform:scale(1.05);}
+    .content-section {padding:80px 20px;text-align:center;background:#0056B3;}
+    .content-section h2 {font-size:2.4rem;color:#FFD700;text-shadow:0 0 10px #FFD700;margin-bottom:40px;border-bottom:2px solid #C40000;display:inline-block;padding-bottom:5px;}
+    .cards {display:flex;flex-wrap:wrap;justify-content:center;gap:20px;}
+    .card {background:#0f1419;padding:30px;border-radius:10px;flex:1 1 280px;max-width:320px;box-shadow:0 0 20px rgba(0,86,179,.6);transition:.3s;}
+    .card:hover {transform:translateY(-8px);box-shadow:0 0 25px #FFD700;}
+    .card h3 {color:#ff5a5a;text-shadow:0 0 6px #ff0000;}
+    footer {text-align:center;padding:25px;background:#C40000;color:#FFD700;border-top:5px solid #FFD700;text-shadow:0 0 5px #FFD700;}
 
-        /* --- 全域設定與基本樣式 --- */
-        body {
-            font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-light);
-            transition: background-color 0.5s;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+    /* 回到最上方按鈕 */
+    #backToTop {position:fixed;bottom:30px;right:30px;background:#FFD700;color:#C40000;border:none;border-radius:50%;width:55px;height:55px;font-size:1.5rem;cursor:pointer;box-shadow:0 0 10px rgba(255,215,0,.5);display:none;transition:all .3s;}
+    #backToTop:hover {transform:scale(1.1);box-shadow:0 0 20px rgba(255,215,0,.8);}
 
-        /* --- 導覽列 (Header) --- */
-        header {
-            background-color: var(--color-card-bg);
-            padding: 1rem 0;
-            box-shadow: 0 0 15px var(--color-hero-blue);
-            border-bottom: 3px solid var(--color-hero-red); 
-        }
-        /* LOGO 層：置中 */
-        header .logo-bar {
-            display: flex;
-            justify-content: center; 
-            padding-bottom: 10px;
-        }
-        /* 分頁層：置中 */
-        header .nav-bar {
-            display: flex;
-            justify-content: center; 
-        }
+    /* === 手機版單列選單（避免擠出畫面） === */
+    @media (max-width: 768px) {
+      .logo-link img {height:84px;}
+      nav ul {flex-direction:column;gap:14px;margin-top:12px;}
+      nav a {display:block;padding:10px 16px;font-size:1.6rem;}
+    }
 
-        /* --- LOGO 圖片樣式調整 --- */
-        header .logo-link {
-            text-decoration: none;
-            display: flex; 
-            align-items: center;
-            width: 150px; 
-            height: 40px;
-            overflow: hidden; 
-        }
-        header .logo-link img {
-            height: 70px; /* LOGO 圖片高度 */
-            margin-top: -15px;
-            width: auto;
-            /* 圖片路徑已修正為根目錄下的 /images/plus_ultra_logo.png */
-            filter: drop-shadow(0 0 8px var(--color-hero-yellow)); 
-            transition: filter 0.3s;
-        }
-        header .logo-link img:hover {
-            filter: drop-shadow(0 0 12px var(--color-hero-yellow));
-        }
-        /* --- LOGO 圖片樣式結束 --- */
+    @media (max-width: 420px) {
+      .logo-link img {height:72px;}
+      nav a {font-size:1.45rem;letter-spacing:.08em;}
+      .hero {padding:72px 16px;}
+      .hero h1 {font-size:2.2rem;}
+      .hero p {font-size:1.1rem;}
+    }
+      
+    /* === 英雄飛行閃光軌跡動畫 === */
+    #backToTop.comet { animation: rocket 0.6s ease-out; }
+    #backToTop::before {
+      content: '';
+      position: absolute;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: 64px; height: 64px; border-radius: 50%;
+      background: conic-gradient(from 0deg, rgba(255,215,0,.0), rgba(255,215,0,.55), rgba(255,0,0,.45), rgba(255,215,0,.0));
+      filter: blur(8px);
+      opacity: .0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    #backToTop.comet::before { opacity: .85; }
 
-        header nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-        header nav ul li {
-            margin: 0 15px;
-        }
-        header nav ul li a {
-            text-decoration: none;
-            color: var(--color-hero-yellow);
-            font-size: 1.6rem; /* 分頁字體加大到 1.6rem */
-            font-weight: 900; 
-            transition: color 0.3s, text-shadow 0.3s;
-            letter-spacing: 2px;
-        }
-        header nav ul li a:hover {
-            color: var(--color-hero-red); 
-            text-shadow: 0 0 8px var(--color-hero-red);
-        }
+    @keyframes rocket {
+      0% { transform: scale(1) translateZ(0); box-shadow: 0 0 12px rgba(255,215,0,.6); }
+      35% { transform: scale(1.15); box-shadow: 0 0 22px rgba(255,215,0,.9); }
+      100% { transform: scale(1); box-shadow: 0 0 12px rgba(255,215,0,.6); }
+    }
 
-        /* --- Hero Section --- */
-        .hero {
-            text-align: center;
-            padding: 120px 20px; 
-            
-            /* 圖片背景設定 */
-            background-image: url('/images/94ai_square.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            
-            /* 背景覆蓋層 (Overlay) 確保文字可見 */
-            position: relative;
-            z-index: 1; 
-            color: var(--color-hero-yellow);
-
-            box-shadow: inset 0 -10px 20px rgba(255, 215, 0, 0.4); 
-            border-bottom: 5px solid var(--color-hero-red);
-        }
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); 
-            z-index: -1;
-        }
-
-        .hero h1 {
-            font-size: 3.8rem;
-            margin-bottom: 15px;
-            color: var(--color-hero-yellow); 
-            text-shadow: 0 0 20px var(--color-hero-yellow); 
-        }
-        .hero p {
-            font-size: 1.5rem;
-            margin-bottom: 50px;
-            color: #fff;
-            opacity: 0.9;
-        }
-        .cta-button {
-            display: inline-block;
-            background-color: var(--color-hero-red); 
-            color: var(--color-hero-yellow); 
-            padding: 18px 50px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 900;
-            font-size: 1.2rem;
-            transition: background-color 0.3s, box-shadow 0.3s;
-            box-shadow: 0 0 20px var(--color-hero-red); 
-            border: 2px solid var(--color-hero-yellow);
-        }
-        .cta-button:hover {
-            background-color: #ff3333;
-            box-shadow: 0 0 40px var(--color-hero-red); 
-            transform: scale(1.05);
-        }
-
-        /* --- 內容區塊 (通用樣式，已修正為英雄藍背景) --- */
-        .content-section {
-            padding: 80px 20px;
-            text-align: center;
-            background-color: var(--color-hero-blue); /* **確保背景是英雄藍** */
-            border-top: 5px solid var(--color-hero-blue); 
-            box-shadow: 0 0 40px rgba(0, 86, 179, 0.4); 
-            min-height: 70vh; /* 確保內容區塊足夠撐開畫面 */
-        }
-        .content-section h2 {
-            font-size: 2.8rem;
-            margin-bottom: 40px;
-            color: var(--color-hero-yellow); 
-            text-shadow: 0 0 10px var(--color-hero-yellow);
-            border-bottom: 2px solid var(--color-hero-red);
-            display: inline-block;
-            padding-bottom: 5px;
-        }
-        .content-section .cards {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-        .content-section .card {
-            background-color: var(--color-card-bg); /* 卡片內部維持深色，確保文字清晰 */
-            padding: 35px;
-            margin: 20px;
-            border-radius: 8px;
-            border: 3px solid var(--color-hero-blue); 
-            box-shadow: 0 0 30px rgba(0, 86, 179, 0.7); 
-            flex-basis: calc(33% - 40px); 
-            box-sizing: border-box;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .content-section .card:hover {
-            transform: translateY(-10px); 
-            box-shadow: 0 0 40px var(--color-hero-yellow); 
-        }
-        .card h3 {
-            color: var(--color-hero-red); 
-            font-size: 1.8rem;
-            margin-top: 0;
-            text-shadow: 0 0 5px var(--color-hero-red);
-        }
-        .card p {
-            color: #ccc;
-            min-height: 48px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-        }
-
-        /* --- 頁尾 (Footer) --- */
-        footer {
-            text-align: center;
-            padding: 30px;
-            background-color: var(--color-hero-red); 
-            color: var(--color-hero-yellow);
-            border-top: 5px solid var(--color-hero-yellow);
-            text-shadow: 0 0 5px var(--color-hero-yellow);
-        }
-        footer p {
-            margin: 0;
-            opacity: 0.9;
-        }
-
-        /* --- 響應式設計 (RWD for Mobile) --- */
-        @media (max-width: 768px) {
-            header nav ul li a {
-                font-size: 1.3rem; /* 手機字體略小以容納螢幕寬度 */
-            }
-            .content-section .card {
-                flex-basis: 100%;
-            }
-        }
-    </style>
+    /* 釋放的火花粒子 */
+    .spark {
+      position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999;
+      background: radial-gradient(circle at 30% 30%, #fff, #FFD700 60%, rgba(255,215,0,.0) 70%);
+      filter: drop-shadow(0 0 8px rgba(255,215,0,.8));
+      animation: spark-move .8s ease-out forwards, spark-fade .8s ease-out forwards;
+    }
+    @keyframes spark-move {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(var(--dx), var(--dy)) scale(0.4); }
+    }
+    @keyframes spark-fade {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
+  </style>
 </head>
 <body>
-    <!-- 導覽列：分成兩層 -->
-    <header>
-        <div class="container">
-            <!-- 第一層：LOGO 置中 -->
-            <div class="logo-bar">
-                <!-- LOGO 圖片路徑已修正為根目錄 -->
-                <a href="/index.html" class="logo-link">
-                    <!-- 圖片路徑已修正，確保在 GitHub Pages 中能正常顯示 -->
-                    <img src="/images/plus_ultra_logo.png" alt="94AI PLUS ULTRA Logo"> 
-                </a>
-            </div>
-            
-            <!-- 第二層：分頁置中 -->
-            <div class="nav-bar">
-                <nav>
-                    <ul>
-                        <!-- 所有超連結已修正為根目錄 -->
-                        <li><a href="/index.html">領域展開</a></li>
-                        <li><a href="/blog.html">特級咒物</a></li> 
-                        <li><a href="/contact.html">咒力傳輸</a></li> 
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
+  <header>
+    <a href="/index.html" class="logo-link"><img src="/images/94ai_square.png" alt="94AI LOGO"></a>
+    <nav>
+      <ul>
+        <li><a href="/index.html">領域展開</a></li>
+        <li><a href="/blog.html">特級咒物</a></li>
+        <li><a href="/contact.html">咒力傳輸</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <h1>你就是下一個英雄！PLUS ULTRA！</h1>
+      <p>94AI 繼承時代的力量，為你傳授最先進的智能個性 (AI Quirk) 與技術訓練！</p>
+      <a href="/blog.html" class="cta-button">去吧！英雄訓練！</a>
+    </section>
+    <section class="content-section">
+      <h2>// 英雄訓練課表 //</h2>
+      <div class="cards">
+        <div class="card"><h3>力量覺醒</h3><p>英雄藍：深度解析最新 AI 模型的強大功能與技術原理。</p></div>
+        <div class="card"><h3>危機處理</h3><p>英雄紅：面對 AI 倫理與安全風險，教你做出正確判斷。</p></div>
+        <div class="card"><h3>金色光芒</h3><p>英雄黃：發掘 AI 領域的職涯潛能，照亮你的未來。</p></div>
+      </div>
+    </section>
+  </main>
+  <footer><p>I AM HERE! | 94AI.COM.TW ONE FOR ALL 2025 | BEYOND THE LIMIT!</p></footer>
+  <button id="backToTop" title="回到頂部">▲</button>
+  <script>
+    const topBtn=document.getElementById('backToTop');
+    window.addEventListener('scroll',()=>{if(window.scrollY>200){topBtn.style.display='block';}else{topBtn.style.display='none';}});
+    topBtn.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});});
+  </script>
+  <script>
+    const topBtn=document.getElementById('backToTop');
+    const showAt=200;
+    window.addEventListener('scroll',()=>{
+      topBtn.style.display = (window.scrollY>showAt)?'block':'none';
+    });
 
-    <main>
-        <!-- Hero 區塊現在使用橫幅圖片作為背景 -->
-        <section class="hero">
-            <div class="container">
-                <h1>你就是下一個英雄！PLUS ULTRA！</h1>
-                <p>94AI 繼承時代的力量，為你傳授最先進的智能個性 (AI Quirk) 與技術訓練！</p>
-                <!-- CTA 按鈕指向特級咒物 -->
-                <a href="/blog.html" class="cta-button">去吧！英雄訓練！</a> 
-            </div>
-        </section>
+    function spawnSparks(x,y,count=12){
+      for(let i=0;i<count;i++){
+        const s=document.createElement('span');
+        s.className='spark';
+        // 隨機拋射方向（往左上為主，帶一點散射）
+        const dx = (-40 - Math.random()*60) + 'px';
+        const dy = (-20 - Math.random()*120) + 'px';
+        s.style.setProperty('--dx', dx);
+        s.style.setProperty('--dy', dy);
+        s.style.left = (x + (Math.random()*20-10)) + 'px';
+        s.style.top  = (y + (Math.random()*20-10)) + 'px';
+        document.body.appendChild(s);
+        s.addEventListener('animationend',()=> s.remove());
+      }
+    }
 
-        <!-- 內容區塊：背景為英雄藍 -->
-        <section class="content-section">
-            <div class="container">
-                <h2>// 英雄訓練課表 //</h2>
-                <div class="cards">
-                    <div class="card">
-                        <h3>力量覺醒</h3>
-                        <p>英雄藍：深度解析最新 AI 模型的強大功能與技術原理，掌握你的智能個性。</p>
-                    </div>
-                    <div class="card">
-                        <h3>危機處理</h3>
-                        <p>英雄紅：面對 AI 倫理與安全風險，教你做出正確判斷，避免技術的失控。</p>
-                    </div>
-                    <div class="card">
-                        <h3>金色光芒</h3>
-                        <p>英雄黃：發掘 AI 領域的職涯潛能，照亮你成為專業人士的未來道路。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <!-- 最終頁尾版本 -->
-            <p>I AM HERE! | 94AI.COM.TW ONE FOR ALL 2025 | BEYOND THE LIMIT!</p>
-        </div>
-    </footer>
+    topBtn.addEventListener('click',()=>{
+      // 英雄飛行特效
+      topBtn.classList.add('comet');
+      // 取得按鈕螢幕位置，作為粒子起點
+      const rect = topBtn.getBoundingClientRect();
+      spawnSparks(rect.left + rect.width/2, rect.top + rect.height/2, 16);
+      setTimeout(()=> topBtn.classList.remove('comet'), 650);
+      // 平滑回頂端
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  </script>
 </body>
+</html>
 </html>
