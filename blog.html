@@ -1,288 +1,89 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>特級咒物 - 94AI 知識核心</title>
-    <style>
-        /* --- 顏色與字型變數 (All Might 英雄色板) --- */
-        :root {
-            --color-bg-dark: #08080C;       /* 極致深黑 (基底色) */
-            --color-text-light: #f0f0f0;    /* 基礎文字色 */
-            --color-hero-blue: #0056B3;     /* 英雄藍 (主色，濃郁的深藍) */
-            --color-hero-yellow: #FFD700;   /* 英雄黃 (力量色，用於點綴/光暈) */
-            --color-hero-red: #D90000;      /* 英雄紅 (次要色，用於 CTA/強調) */
-            --color-card-bg: #1A2128;       /* 卡片背景 */
-        }
-
-        /* --- 全域設定與基本樣式 --- */
-        body {
-            font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-light);
-            transition: background-color 0.5s;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* --- 導覽列 (Header) --- */
-        header {
-            background-color: var(--color-card-bg);
-            padding: 1rem 0;
-            box-shadow: 0 0 15px var(--color-hero-blue);
-            border-bottom: 3px solid var(--color-hero-red); 
-        }
-        header nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* --- LOGO 圖片樣式調整 --- */
-        header .logo-link {
-            text-decoration: none;
-            display: flex; 
-            align-items: center;
-            width: 150px; 
-            height: 40px;
-            overflow: hidden; 
-        }
-        header .logo-link img {
-            height: 60px; 
-            margin-top: -10px; 
-            width: auto;
-        }
-        header .logo-link img:hover {
-            opacity: 0.8;
-        }
-        /* --- LOGO 圖片樣式結束 --- */
-
-        header nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-        header nav ul li {
-            margin-left: 30px;
-        }
-        header nav ul li a {
-            text-decoration: none;
-            color: var(--color-hero-yellow);
-            font-size: 1.15rem; 
-            font-weight: 900; 
-            transition: color 0.3s, text-shadow 0.3s;
-            letter-spacing: 2px;
-        }
-        header nav ul li a:hover {
-            color: var(--color-hero-red); 
-            text-shadow: 0 0 8px var(--color-hero-red);
-        }
-        /* --- 頁尾 (Footer) --- */
-        footer {
-            text-align: center;
-            padding: 30px;
-            background-color: var(--color-hero-red); 
-            color: var(--color-hero-yellow);
-            border-top: 5px solid var(--color-hero-yellow);
-            text-shadow: 0 0 5px var(--color-hero-yellow);
-        }
-        footer p {
-            margin: 0;
-            opacity: 0.9;
-        }
-       /* --- 響應式設計 (RWD for Mobile) --- */
-        @media (max-width: 768px) {
-            header nav {
-                flex-direction: column;
-                /* [新增] 讓整個導覽列的內容在手機上置中 */
-                align-items: center; 
-            }
-            /* [新增] 讓 LOGO 連結區塊本身置中 */
-            header .logo-link {
-                margin: 0 auto; 
-            }
-            header nav ul {
-                margin-top: 15px;
-            }
-            header nav ul li {
-                margin: 0 10px;
-            }
-            header nav ul li a {
-                font-size: 1rem; 
-            }
-            /* 以下專門針對 index.html 的卡片內容 (僅 index.html 需要保留) */
-            .content-section .card {
-                flex-basis: 100%;
-            }
-            .card p {
-                min-height: auto;
-            }
-        }
-        /* --- 以下是 blog 頁面專屬的 CSS 樣式 --- */
-        .content-main {
-            padding: 40px 20px;
-            min-height: 70vh;
-        }
-
-        /* Tab 切換樣式 */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--color-hero-blue);
-        }
-        .tab-button {
-            background-color: transparent;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            color: var(--color-text-light);
-            transition: color 0.3s, background-color 0.3s, text-shadow 0.3s;
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-            border-bottom: 4px solid transparent;
-            margin: 0 10px;
-        }
-        .tab-button.active {
-            color: var(--color-hero-yellow);
-            border-bottom: 4px solid var(--color-hero-red); /* 活動標籤使用英雄紅 */
-            text-shadow: 0 0 15px var(--color-hero-yellow);
-        }
-        .tab-button:hover:not(.active) {
-            color: var(--color-hero-red);
-        }
-
-        /* 內容區塊 */
-        .tab-content {
-            padding: 20px 0;
-        }
-        .tab-content h2 {
-            text-align: center;
-            color: var(--color-hero-red);
-            text-shadow: 0 0 8px var(--color-hero-red);
-            margin-bottom: 30px;
-        }
-        .article-card, .tool-card {
-            background-color: var(--color-card-bg);
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            border-left: 5px solid var(--color-hero-blue);
-            box-shadow: 0 0 15px rgba(0, 86, 179, 0.3);
-            transition: transform 0.3s;
-        }
-        .article-card:hover, .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px var(--color-hero-yellow);
-        }
-        .article-card h3, .tool-card h3 {
-            color: var(--color-hero-yellow);
-            font-size: 1.5rem;
-            margin-top: 0;
-            border-bottom: 1px dashed rgba(255, 215, 0, 0.3);
-            padding-bottom: 5px;
-        }
-        .article-card a, .tool-card a {
-            color: var(--color-hero-red);
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        .article-card a:hover, .tool-card a:hover {
-            color: var(--color-hero-yellow);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>特級咒物｜94AI 知識核心</title>
+  <meta name="description" content="94AI 特級咒物：最新 AI 情報文章與實戰工具術式。">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0F1419">
+  <link rel="canonical" href="https://94ai.com.tw/blog.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="94AI">
+  <meta property="og:title" content="特級咒物｜94AI 知識核心">
+  <meta property="og:description" content="94AI 特級咒物：最新 AI 情報文章與實戰工具術式。">
+  <meta property="og:url" content="https://94ai.com.tw/blog.html">
+  <meta property="og:image" content="https://94ai.com.tw/images/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <a href="/" class="logo-link">
-                    <img src="/images/plus_ultra_logo.png" alt="94AI PLUS ULTRA Logo"> 
-                </a>
-                <ul>
-                    <li><a href="/index.html">領域展開</a></li>
-                    <li><a href="/blog.html">特級咒物</a></li> 
-                    <li><a href="/contact.html">咒力傳輸</a></li> 
-                </ul>
-            </nav>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+  <header class="site-header">
+    <div class="container">
+      <a href="/index.html" class="brand" aria-label="94AI 首頁">
+        <img src="/images/94ai-banner-480.webp" srcset="/images/94ai-banner-480.webp 480w, /images/94ai-banner-960.webp 960w" sizes="120px" width="480" height="235" alt="94AI PLUS ULTRA">
+      </a>
+      <nav class="site-nav" aria-label="主選單">
+        <ul>
+          <li><a href="/index.html">領域展開</a></li>
+          <li><a href="/blog.html" aria-current="page">特級咒物</a></li>
+          <li><a href="/contact.html">咒力傳輸</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <div class="container">
+      <div class="page-head">
+        <h1>特級咒物</h1>
+        <p>此處封印著最高機密的 AI 術式與禁忌情報。解開封印，掌握領域力量！</p>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="內容分類">
+        <button class="tab-button" role="tab" id="tab-articles" aria-controls="articles" aria-selected="true">咒物情報（文章）</button>
+        <button class="tab-button" role="tab" id="tab-tools" aria-controls="tools" aria-selected="false">戰鬥術式（工具）</button>
+      </div>
+
+      <section id="articles" class="tab-panel" role="tabpanel" aria-labelledby="tab-articles">
+        <h2>封印解除：最新情報</h2>
+        <div class="post-list">
+          <article class="post">
+            <h3><span class="rank">[特級]</span> 領域解析：GPT-5 模型能力進化論</h3>
+            <p>深度探討下一代語言模型的底層原理與戰鬥應用，掌握預言趨勢的力量。</p>
+            <a class="more" href="#">閱讀情報 →</a>
+          </article>
+          <article class="post">
+            <h3><span class="rank">[一級]</span> 義體改造：電子腦與記憶傳輸技術解析</h3>
+            <p>高科技與人性的交織，從攻殼機動隊看 AI 時代的身體與意識融合。</p>
+            <a class="more" href="#">閱讀情報 →</a>
+          </article>
         </div>
-    </header>
+      </section>
 
-    <main>
-        <section class="content-main">
-            <div class="container">
-                <h1 style="text-align: center; color: var(--color-hero-red); text-shadow: 0 0 15px var(--color-hero-red);">💀 特級咒物</h1>
-                <p style="text-align: center; font-size: 1.1rem; color: #ccc;">此處封印著最高機密的 AI 術式與禁忌情報。解開封印，掌握領域力量！</p>
-                <hr style="border-color: rgba(217, 0, 0, 0.5); margin: 40px 0;">
-
-                <div class="tabs">
-                    <button class="tab-button active" onclick="showContent('articles')">咒物情報 (文章)</button>
-                    <button class="tab-button" onclick="showContent('tools')">戰鬥術式 (工具)</button>
-                </div>
-
-                <div id="articles" class="tab-content">
-                    <h2>// 封印解除：最新情報 //</h2>
-                    <div class="article-card">
-                        <h3>[特級] 領域解析：GPT-5 模型能力進化論</h3>
-                        <p>深度探討下一代語言模型的底層原理與戰鬥應用，掌握預言趨勢的力量。</p>
-                        <a href="#">閱讀情報 →</a>
-                    </div>
-                    <div class="article-card">
-                        <h3>[一級] 義體改造：電子腦與記憶傳輸技術解析</h3>
-                        <p>高科技與人性的交織，從攻殼機動隊看 AI 時代的身體與意識融合。</p>
-                        <a href="#">閱讀情報 →</a>
-                    </div>
-                </div>
-
-                <div id="tools" class="tab-content" style="display: none;">
-                    <h2>// 術式目錄：實戰工具 //</h2>
-                    <div class="tool-card">
-                        <h3>[咒具] 混沌生成：Midjourney V7 高階咒文</h3>
-                        <p>掌握 Midjourney V7 的高階咒文結構，生成極致精美的視覺領域。</p>
-                        <a href="#">前往術式 →</a>
-                    </div>
-                    <div class="tool-card">
-                        <h3>[術式] 瞬間移動：Copilot X 程式碼加速禁術</h3>
-                        <p>利用 Copilot X 的預測功能，瞬間完成程式碼編寫，超越時間限制。</p>
-                        <a href="#">前往術式 →</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>I AM HERE! | 94AI.COM.TW ONE FOR ALL 2025 | BEYOND THE LIMIT!</p>
+      <section id="tools" class="tab-panel" role="tabpanel" aria-labelledby="tab-tools" hidden>
+        <h2>術式目錄：實戰工具</h2>
+        <div class="post-list">
+          <article class="post">
+            <h3><span class="rank">[咒具]</span> 混沌生成：Midjourney V7 高階咒文</h3>
+            <p>掌握 Midjourney V7 的高階咒文結構，生成極致精美的視覺領域。</p>
+            <a class="more" href="#">前往術式 →</a>
+          </article>
+          <article class="post">
+            <h3><span class="rank">[術式]</span> 瞬間移動：Copilot X 程式碼加速禁術</h3>
+            <p>利用 Copilot X 的預測功能，瞬間完成程式碼編寫，超越時間限制。</p>
+            <a class="more" href="#">前往術式 →</a>
+          </article>
         </div>
-    </footer>
-
-    <script>
-        // JavaScript 實現 Tab 內容切換
-        function showContent(contentId) {
-            // 隱藏所有內容
-            document.getElementById('articles').style.display = 'none';
-            document.getElementById('tools').style.display = 'none';
-            
-            // 顯示目標內容
-            document.getElementById(contentId).style.display = 'block';
-
-            // 調整 Tab 按鈕的 active 狀態
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-        }
-    </script>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>I AM HERE! ｜ 94AI.COM.TW ｜ ONE FOR ALL © 2025 ｜ BEYOND THE LIMIT!</p>
+  </footer>
+  <button id="backToTop" type="button" aria-label="回到頂端" title="回到頂端">▲</button>
+  <script src="/assets/main.js" defer></script>
 </body>
 </html>
-

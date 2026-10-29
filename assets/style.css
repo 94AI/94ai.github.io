@@ -1,0 +1,220 @@
+/* 94AI 共用樣式：三個頁面共用同一份，改一次全站生效 */
+:root {
+  --bg: #08080C;
+  --surface: #12171D;
+  --surface-2: #1A2128;
+  --text: #F2F4F7;
+  --muted: #B8C0CC;
+  --blue: #0056B3;
+  --blue-light: #2E86F0;
+  --yellow: #FFD700;
+  --red: #D90000;
+  --red-light: #FF5A5A;
+  --radius: 12px;
+  --max: 1120px;
+  --header-h: 64px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", Roboto, sans-serif;
+  line-height: 1.7;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+.container { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+.skip-link { position: absolute; left: -999px; top: 8px; background: var(--yellow); color: #000; padding: 8px 12px; border-radius: 6px; z-index: 2000; }
+.skip-link:focus { left: 8px; }
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+/* ---------- 頁首：精簡固定導覽列 ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 1000;
+  background: rgba(15, 20, 25, .92);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border-bottom: 3px solid var(--red);
+  box-shadow: 0 6px 24px rgba(0,0,0,.35);
+}
+.site-header .container {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; min-height: var(--header-h);
+}
+.brand { display: flex; align-items: center; flex-shrink: 0; }
+.brand img { height: 44px; width: auto; filter: drop-shadow(0 0 6px rgba(255,215,0,.45)); transition: filter .3s; }
+.brand:hover img { filter: drop-shadow(0 0 12px rgba(255,215,0,.8)); }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; }
+.site-nav a {
+  display: block; padding: 8px 14px; border-radius: 8px;
+  text-decoration: none; color: var(--yellow);
+  font-weight: 800; font-size: 1.05rem; letter-spacing: .08em;
+  transition: color .2s, background .2s;
+}
+.site-nav a:hover { color: #fff; background: rgba(217,0,0,.25); }
+.site-nav a[aria-current="page"] { color: #fff; background: var(--red); }
+
+/* ---------- 首頁主視覺 ---------- */
+.hero {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(circle at 75% 50%, rgba(255,140,0,.35), transparent 55%),
+    linear-gradient(135deg, #0B1220 0%, #10213F 55%, #3A0A0A 100%);
+  border-bottom: 5px solid var(--red);
+}
+.hero .container {
+  display: grid; grid-template-columns: 1.15fr .85fr; align-items: center;
+  gap: 40px; padding-top: 72px; padding-bottom: 72px;
+}
+.hero-eyebrow { display: inline-block; margin: 0 0 12px; padding: 4px 12px; border: 2px solid var(--yellow); border-radius: 999px; color: var(--yellow); font-weight: 800; font-size: .9rem; letter-spacing: .12em; }
+.hero h1 {
+  margin: 0 0 16px; color: var(--yellow);
+  font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 1.2;
+  text-shadow: 0 2px 0 #7A3B00, 0 0 18px rgba(255,215,0,.45);
+}
+.hero h1 .accent { display: block; color: #fff; }
+.hero p { margin: 0 0 32px; font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: var(--text); max-width: 34em; }
+.hero-emblem { justify-self: center; width: min(100%, 380px); filter: drop-shadow(0 0 30px rgba(255,165,0,.45)); animation: float 6s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.btn {
+  display: inline-block; background: var(--red); color: var(--yellow);
+  padding: 14px 32px; border-radius: 10px; border: 2px solid var(--yellow);
+  font-weight: 900; font-size: 1.05rem; text-decoration: none;
+  transition: transform .2s, background .2s, box-shadow .2s;
+}
+.btn:hover { background: #FF2A2A; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,215,0,.35); }
+.btn-blue { background: var(--blue); }
+.btn-blue:hover { background: var(--blue-light); }
+
+/* ---------- 區塊與卡片 ---------- */
+.section { padding: 72px 0; }
+.section-blue { background: linear-gradient(180deg, #0050A8, #003B7A); }
+.section-title {
+  text-align: center; margin: 0 0 40px;
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem); color: var(--yellow);
+  text-shadow: 0 0 10px rgba(255,215,0,.5);
+}
+.section-title::after { content: ""; display: block; width: 72px; height: 4px; margin: 12px auto 0; background: var(--red); border-radius: 2px; }
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.card {
+  background: var(--surface); padding: 28px; border-radius: var(--radius);
+  border-top: 4px solid var(--card-color, var(--blue-light));
+  box-shadow: 0 10px 30px rgba(0,0,0,.35); transition: transform .3s, box-shadow .3s;
+}
+.card:hover { transform: translateY(-6px); box-shadow: 0 0 24px rgba(255,215,0,.55); }
+.card h3 { margin: 0 0 8px; font-size: 1.35rem; color: var(--card-color, var(--yellow)); }
+.card .tag { display: inline-block; font-size: .85rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+.card p { margin: 0; color: var(--text); }
+.card-blue { --card-color: #5AA9FF; }
+.card-red { --card-color: var(--red-light); }
+.card-yellow { --card-color: var(--yellow); }
+
+/* ---------- 內頁標題 ---------- */
+.page-head { text-align: center; padding: 56px 0 8px; }
+.page-head h1 { margin: 0 0 12px; font-size: clamp(1.9rem, 4vw, 2.8rem); color: var(--red-light); text-shadow: 0 0 14px rgba(217,0,0,.6); }
+.page-head p { margin: 0 auto; max-width: 36em; color: var(--muted); font-size: 1.1rem; }
+
+/* ---------- 部落格分頁 ---------- */
+.tabs { display: flex; justify-content: center; gap: 8px; margin: 32px 0; border-bottom: 2px solid var(--blue); }
+.tab-button {
+  background: transparent; border: none; border-bottom: 4px solid transparent;
+  padding: 12px 20px; margin-bottom: -2px; font: inherit; font-size: 1.1rem; font-weight: 700;
+  color: var(--text); cursor: pointer; transition: color .2s;
+}
+.tab-button:hover { color: var(--red-light); }
+.tab-button[aria-selected="true"] { color: var(--yellow); border-bottom-color: var(--red); }
+.tab-panel h2 { text-align: center; color: var(--red-light); margin: 0 0 24px; font-size: 1.4rem; }
+.post-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; padding-bottom: 72px; }
+.post {
+  background: var(--surface-2); padding: 24px; border-radius: var(--radius);
+  border-left: 5px solid var(--blue-light); box-shadow: 0 0 15px rgba(0,86,179,.3);
+  display: flex; flex-direction: column; transition: transform .3s, box-shadow .3s;
+}
+.post:hover { transform: translateY(-4px); box-shadow: 0 0 22px rgba(255,215,0,.5); }
+.post h3 { margin: 0 0 10px; font-size: 1.25rem; line-height: 1.4; color: var(--yellow); }
+.post .rank { color: var(--red-light); }
+.post p { margin: 0 0 16px; color: var(--muted); flex: 1; }
+.post .more { color: var(--red-light); font-weight: 700; text-decoration: none; }
+.post .more:hover { color: var(--yellow); }
+
+/* ---------- 聯絡頁 ---------- */
+.contact-wrap { max-width: 760px; margin: 32px auto 72px; }
+.panel {
+  background: var(--surface-2); padding: 36px; border-radius: var(--radius);
+  border: 3px solid var(--yellow); box-shadow: 0 0 20px rgba(255,215,0,.3);
+}
+.panel h2 { margin: 0 0 24px; text-align: center; color: var(--red-light); font-size: 1.6rem; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+.contact-item { background: var(--surface); border-radius: 10px; padding: 18px; }
+.contact-item .label { display: block; color: #fff; font-weight: 700; margin-bottom: 6px; }
+.contact-item a { color: var(--yellow); font-weight: 700; text-decoration: none; word-break: break-all; }
+.contact-item a:hover { color: var(--red-light); }
+.about h3 { color: #fff; margin: 0 0 8px; font-size: 1.1rem; }
+.about p { margin: 0; color: var(--muted); }
+
+/* ---------- 頁尾 ---------- */
+.site-footer {
+  text-align: center; padding: 24px 20px; background: var(--red);
+  color: var(--yellow); border-top: 5px solid var(--yellow);
+  font-weight: 700; letter-spacing: .04em;
+}
+.site-footer p { margin: 0; }
+
+/* ---------- 回到頂端按鈕 ---------- */
+#backToTop {
+  position: fixed; right: 20px; bottom: 20px; z-index: 999;
+  width: 52px; height: 52px; border: none; border-radius: 50%;
+  background: var(--yellow); color: var(--red); font-size: 1.4rem; cursor: pointer;
+  box-shadow: 0 0 10px rgba(255,215,0,.5);
+  opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: opacity .3s, visibility .3s, transform .3s, box-shadow .3s;
+}
+#backToTop.show { opacity: 1; visibility: visible; transform: none; }
+#backToTop:hover { box-shadow: 0 0 20px rgba(255,215,0,.8); }
+#backToTop.comet { animation: rocket .6s ease-out; }
+@keyframes rocket { 35% { transform: scale(1.15); box-shadow: 0 0 24px rgba(255,215,0,.9); } }
+.spark {
+  position: fixed; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; z-index: 9999;
+  background: radial-gradient(circle at 30% 30%, #fff, var(--yellow) 60%, transparent 70%);
+  animation: spark .8s ease-out forwards;
+}
+@keyframes spark { to { transform: translate(var(--dx), var(--dy)) scale(.4); opacity: 0; } }
+
+/* ---------- 平板 ---------- */
+@media (max-width: 900px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+  .cards .card:last-child { grid-column: 1 / -1; }
+  .hero .container { gap: 24px; }
+}
+
+/* ---------- 手機 ---------- */
+@media (max-width: 680px) {
+  :root { --header-h: 56px; }
+  .site-header .container { flex-direction: column; gap: 4px; padding-top: 8px; padding-bottom: 8px; }
+  .brand img { height: 36px; }
+  .site-nav ul { gap: 2px; }
+  .site-nav a { padding: 6px 10px; font-size: .98rem; letter-spacing: .04em; }
+
+  .hero .container { grid-template-columns: 1fr; text-align: center; padding-top: 32px; padding-bottom: 48px; }
+  .hero-emblem { order: -1; width: 200px; }
+  .hero p { margin-left: auto; margin-right: auto; }
+  .btn { width: 100%; max-width: 320px; }
+
+  .section { padding: 48px 0; }
+  .cards, .post-list, .contact-grid { grid-template-columns: 1fr; }
+  .cards .card:last-child { grid-column: auto; }
+
+  .tabs { gap: 0; }
+  .tab-button { flex: 1; padding: 12px 8px; font-size: 1rem; }
+  .panel { padding: 24px 18px; }
+  .page-head { padding-top: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
