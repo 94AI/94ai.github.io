@@ -1,8 +1,8 @@
 /* 94AI 共用樣式：三個頁面共用同一份，改一次全站生效 */
 :root {
-  --bg: #08080C;
-  --surface: #12171D;
-  --surface-2: #1A2128;
+  --bg: #1A4BB0;
+  --surface: #12388A;
+  --surface-2: #163F96;
   --text: #F2F4F7;
   --muted: #B8C0CC;
   --blue: #0056B3;
@@ -36,7 +36,7 @@ a { color: inherit; }
 /* ---------- 頁首：精簡固定導覽列 ---------- */
 .site-header {
   position: sticky; top: 0; z-index: 1000;
-  background: rgba(15, 20, 25, .92);
+  background: rgba(14, 50, 128, .94);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border-bottom: 3px solid var(--red);
   box-shadow: 0 6px 24px rgba(0,0,0,.35);
@@ -47,7 +47,7 @@ a { color: inherit; }
 }
 .brand { flex-shrink: 0; font-size: 2.2rem; font-weight: 900; letter-spacing: .14em; color: var(--yellow); text-decoration: none; text-shadow: 0 0 10px rgba(255,215,0,.45); transition: text-shadow .3s, color .3s; }
 .brand:hover { color: #fff; text-shadow: 0 0 14px rgba(255,215,0,.9); }
-.brand-ai { color: #1F5FC9; text-shadow: 0 0 10px rgba(31,95,201,.5); }
+.brand-ai { color: #1F5FC9; text-shadow: -1.5px -1.5px 0 #fff, 1.5px -1.5px 0 #fff, -1.5px 1.5px 0 #fff, 1.5px 1.5px 0 #fff, 0 0 10px rgba(255,255,255,.35); }
 .brand:hover .brand-ai { color: #fff; text-shadow: 0 0 14px rgba(31,95,201,.9); }
 .brand img { height: 44px; width: auto; filter: drop-shadow(0 0 6px rgba(255,215,0,.45)); transition: filter .3s; }
 .brand:hover img { filter: drop-shadow(0 0 12px rgba(255,215,0,.8)); }
@@ -162,13 +162,13 @@ a { color: inherit; }
 
 /* ---------- 訂閱區塊（Kit 表單） ---------- */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.subscribe { background: radial-gradient(circle at 20% 0%, rgba(46,134,240,.25), transparent 55%), linear-gradient(180deg, #0B1220, #08080C); border-top: 3px solid var(--red); }
-.subscribe-box { max-width: 640px; margin: 0 auto; text-align: center; padding: 36px 28px; border: 3px solid var(--yellow); border-radius: var(--radius); background: rgba(18,23,29,.85); box-shadow: 0 0 24px rgba(255,215,0,.25); }
+.subscribe { background: radial-gradient(circle at 20% 0%, rgba(46,134,240,.25), transparent 55%), linear-gradient(180deg, #2A66D8, #1A4BB0); border-top: 3px solid var(--red); }
+.subscribe-box { max-width: 640px; margin: 0 auto; text-align: center; padding: 36px 28px; border: 3px solid var(--yellow); border-radius: var(--radius); background: rgba(14, 46, 118, .9); box-shadow: 0 0 24px rgba(255,215,0,.25); }
 .subscribe-box .section-title { margin-bottom: 12px; }
 .subscribe-lead { margin: 0 0 24px; color: var(--muted); }
 .sub-form { margin: 0; }
 .sub-fields { display: flex; gap: 10px; }
-.sub-fields .formkit-input { flex: 1 1 auto; min-width: 0; padding: 14px 16px; font: inherit; font-size: 1rem; color: var(--text); background: #0B0F14; border: 2px solid #33414F; border-radius: 10px; }
+.sub-fields .formkit-input { flex: 1 1 auto; min-width: 0; padding: 14px 16px; font: inherit; font-size: 1rem; color: var(--text); background: #0F2F78; border: 2px solid #5B8AE0; border-radius: 10px; }
 .sub-fields .formkit-input::placeholder { color: #7D8896; }
 .sub-fields .formkit-input:focus { outline: none; border-color: var(--yellow); box-shadow: 0 0 0 3px rgba(255,215,0,.25); }
 .sub-fields .formkit-submit { position: relative; flex: 0 0 auto; cursor: pointer; overflow: hidden; font: inherit; font-weight: 900; }
