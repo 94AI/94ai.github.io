@@ -46,6 +46,8 @@ a { color: inherit; }
 }
 .brand { flex-shrink: 0; font-size: 1.6rem; font-weight: 900; letter-spacing: .14em; color: var(--yellow); text-decoration: none; text-shadow: 0 0 10px rgba(255,215,0,.45); transition: text-shadow .3s, color .3s; }
 .brand:hover { color: #fff; text-shadow: 0 0 14px rgba(255,215,0,.9); }
+.brand-ai { color: #1F5FC9; text-shadow: 0 0 10px rgba(31,95,201,.5); }
+.brand:hover .brand-ai { color: #fff; text-shadow: 0 0 14px rgba(31,95,201,.9); }
 .brand img { height: 44px; width: auto; filter: drop-shadow(0 0 6px rgba(255,215,0,.45)); transition: filter .3s; }
 .brand:hover img { filter: drop-shadow(0 0 12px rgba(255,215,0,.8)); }
 .site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; }
