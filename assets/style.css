@@ -65,8 +65,8 @@ a { color: inherit; }
 .hero {
   position: relative; overflow: hidden;
   background:
-    radial-gradient(circle at 75% 50%, rgba(255,140,0,.35), transparent 55%),
-    linear-gradient(135deg, #0B1220 0%, #10213F 55%, #3A0A0A 100%);
+    radial-gradient(circle at 75% 50%, rgba(255,190,0,.30), transparent 50%),
+    linear-gradient(135deg, #0E2C72 0%, #163F96 55%, #1E55C4 100%);
   border-bottom: 5px solid var(--red);
 }
 .hero .container {
