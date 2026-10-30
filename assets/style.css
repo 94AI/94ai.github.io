@@ -20,6 +20,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", Roboto, sans-serif;
+  font-size: 17px;
   line-height: 1.7;
   background: var(--bg);
   color: var(--text);
@@ -44,7 +45,7 @@ a { color: inherit; }
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; min-height: var(--header-h);
 }
-.brand { flex-shrink: 0; font-size: 1.6rem; font-weight: 900; letter-spacing: .14em; color: var(--yellow); text-decoration: none; text-shadow: 0 0 10px rgba(255,215,0,.45); transition: text-shadow .3s, color .3s; }
+.brand { flex-shrink: 0; font-size: 2.2rem; font-weight: 900; letter-spacing: .14em; color: var(--yellow); text-decoration: none; text-shadow: 0 0 10px rgba(255,215,0,.45); transition: text-shadow .3s, color .3s; }
 .brand:hover { color: #fff; text-shadow: 0 0 14px rgba(255,215,0,.9); }
 .brand-ai { color: #1F5FC9; text-shadow: 0 0 10px rgba(31,95,201,.5); }
 .brand:hover .brand-ai { color: #fff; text-shadow: 0 0 14px rgba(31,95,201,.9); }
@@ -110,7 +111,7 @@ a { color: inherit; }
 }
 .card:hover { transform: translateY(-6px); box-shadow: 0 0 24px rgba(255,215,0,.55); }
 .card h3 { margin: 0 0 8px; font-size: 1.35rem; color: var(--card-color, var(--yellow)); }
-.card .tag { display: inline-block; font-size: .85rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+.card .tag { display: inline-block; font-size: .95rem; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
 .card p { margin: 0; color: var(--text); }
 .card-blue { --card-color: #5AA9FF; }
 .card-red { --card-color: var(--red-light); }
@@ -183,7 +184,7 @@ a { color: inherit; }
 .formkit-alert li { padding: 10px 14px; border-radius: 8px; }
 .formkit-alert-error li { background: rgba(217,0,0,.18); border: 1px solid var(--red-light); color: #FFD0D0; }
 .formkit-alert-success li { background: rgba(0,160,90,.18); border: 1px solid #3DDC97; color: #C8FFE6; }
-.sub-note { margin: 16px 0 0; font-size: .9rem; color: var(--muted); }
+.sub-note { margin: 16px 0 0; font-size: .95rem; color: var(--muted); }
 .sub-note a { color: var(--muted); }
 @media (max-width: 680px) {
   .sub-fields { flex-direction: column; }
@@ -229,6 +230,8 @@ a { color: inherit; }
 /* ---------- 手機 ---------- */
 @media (max-width: 680px) {
   :root { --header-h: 56px; }
+  body { font-size: 16px; }
+  .brand { font-size: 1.6rem; }
   .site-header .container { flex-direction: column; gap: 4px; padding-top: 8px; padding-bottom: 8px; }
   .brand img { height: 36px; }
   .site-nav ul { gap: 2px; }
