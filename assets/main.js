@@ -31,13 +31,19 @@
 
   // 部落格分頁切換
   var tabs = document.querySelectorAll('[role="tab"]');
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      tabs.forEach(function (t) {
-        var selected = t === tab;
-        t.setAttribute('aria-selected', selected ? 'true' : 'false');
-        document.getElementById(t.getAttribute('aria-controls')).hidden = !selected;
-      });
+  var select = function (tab) {
+    tabs.forEach(function (t) {
+      var selected = t === tab;
+      t.setAttribute('aria-selected', selected ? 'true' : 'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !selected;
     });
+  };
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () { select(tab); });
   });
+  // 網址帶 #youtube 時，直接打開 YouTube 區
+  if (location.hash === '#youtube') {
+    var yt = document.getElementById('tab-youtube');
+    if (yt) select(yt);
+  }
 })();

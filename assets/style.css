@@ -354,6 +354,31 @@ a { color: inherit; }
   .hero-actions .btn { max-width: none; }
 }
 
+/* 作戰頻道：Podcast／YouTube 切換卡片 */
+.switch { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 760px; margin: 28px auto 8px; }
+.switch-card {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 18px 12px; border-radius: var(--radius); cursor: pointer; font: inherit;
+  background: var(--surface); color: #fff; border: 3px solid rgba(255,215,0,.35);
+  box-shadow: 0 8px 22px rgba(0,0,0,.25); transition: transform .2s, border-color .2s, background .2s;
+}
+.switch-card:hover { transform: translateY(-3px); border-color: var(--yellow); }
+.switch-card[aria-selected="true"] { background: var(--red); border-color: var(--yellow); box-shadow: 0 0 22px rgba(255,215,0,.45); }
+.switch-icon { font-size: 2rem; line-height: 1; }
+.switch-title { font-weight: 900; font-size: 1.15rem; color: var(--yellow); }
+.switch-sub { font-size: .9rem; color: rgba(255,255,255,.85); }
+.yt-note { margin: 14px auto 0; max-width: 860px; text-align: center; color: var(--muted); font-size: .95rem; }
+.channel[hidden] { display: none; }
+@media (min-width: 1000px) { #panel-podcast .ep-list { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 680px) {
+  .switch { gap: 10px; margin-top: 20px; }
+  .switch-card { padding: 14px 6px; }
+  .switch-icon { font-size: 1.6rem; }
+  .switch-title { font-size: 1rem; }
+  .switch-sub { font-size: .8rem; }
+  .channel { margin-top: 24px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }

@@ -24,7 +24,7 @@ PAGE = ROOT / "blog.html"
 HOME = ROOT / "index.html"   # 首頁「作戰頻道」卡片上的最新一集
 START = "<!-- EPISODES:START -->"
 END = "<!-- EPISODES:END -->"
-SHOW_FIRST = 6          # 一開始直接顯示的集數，其餘收進「看更早的集數」
+SHOW_FIRST = 3          # 一開始直接顯示的集數，其餘收進「看更早的集數」
 EXCERPT_LEN = 72        # 卡片上摘要的字數
 TAIPEI = timezone(timedelta(hours=8))
 ITUNES = "{http://www.itunes.com/dtds/podcast-1.0.dtd}"
@@ -176,6 +176,8 @@ def main():
     a = page.index(START)
     b = page.index(END) + len(END)
     new = page[:a] + render(eps) + page[b:]
+    new = re.sub(r"(<!-- EPCOUNT:START -->).*?(<!-- EPCOUNT:END -->)",
+                 lambda m: m.group(1) + str(len(eps)) + m.group(2), new, flags=re.S)
     if new != page:
         PAGE.write_text(new, encoding="utf-8")
         print(f"已更新：共 {len(eps)} 集")
