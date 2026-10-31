@@ -1,4 +1,4 @@
-# 每天讀取 Podcast RSS，自動更新「作戰頻道」頁（blog.html）的集數清單
+# 每天讀取 Podcast RSS，自動更新「作戰頻道」頁（blog.html）的集數清單與首頁最新一集
 name: 更新 Podcast 集數
 
 on:
@@ -27,12 +27,12 @@ jobs:
         run: python3 scripts/update_episodes.py
       - name: 有變動就提交
         run: |
-          if git diff --quiet -- blog.html; then
+          if git diff --quiet -- blog.html index.html; then
             echo "集數沒有變動"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add blog.html
+          git add blog.html index.html
           git commit -m "自動更新 Podcast 集數清單"
           git push

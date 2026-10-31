@@ -19,7 +19,9 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 RSS_URL = "https://anchor.fm/s/10a38ec70/podcast/rss"
-PAGE = Path(__file__).resolve().parent.parent / "blog.html"
+ROOT = Path(__file__).resolve().parent.parent
+PAGE = ROOT / "blog.html"
+HOME = ROOT / "index.html"   # 首頁「作戰頻道」卡片上的最新一集
 START = "<!-- EPISODES:START -->"
 END = "<!-- EPISODES:END -->"
 SHOW_FIRST = 6          # 一開始直接顯示的集數，其餘收進「看更早的集數」
@@ -179,6 +181,16 @@ def main():
         print(f"已更新：共 {len(eps)} 集")
     else:
         print(f"沒有變動：共 {len(eps)} 集")
+
+    if HOME.exists():
+        home = HOME.read_text(encoding="utf-8")
+        m = re.search(r"(<!-- LATEST:START -->).*?(<!-- LATEST:END -->)", home, re.S)
+        if m:
+            latest = m.group(1) + html.escape(eps[0]["title"]) + m.group(2)
+            new_home = home[:m.start()] + latest + home[m.end():]
+            if new_home != home:
+                HOME.write_text(new_home, encoding="utf-8")
+                print("首頁最新一集已更新")
 
 
 if __name__ == "__main__":
