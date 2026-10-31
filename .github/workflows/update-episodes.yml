@@ -1,0 +1,38 @@
+# 每天讀取 Podcast RSS，自動更新「作戰頻道」頁（blog.html）的集數清單
+name: 更新 Podcast 集數
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # 每天台灣時間 11:17
+  workflow_dispatch:        # 也可以在 GitHub 的 Actions 頁手動執行
+  push:
+    branches: [main]
+    paths:
+      - scripts/update_episodes.py
+      - .github/workflows/update-episodes.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-episodes
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 讀取 RSS 並更新頁面
+        run: python3 scripts/update_episodes.py
+      - name: 有變動就提交
+        run: |
+          if git diff --quiet -- blog.html; then
+            echo "集數沒有變動"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add blog.html
+          git commit -m "自動更新 Podcast 集數清單"
+          git push
