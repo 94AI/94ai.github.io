@@ -252,6 +252,42 @@ a { color: inherit; }
   .page-head { padding-top: 36px; }
 }
 
+/* ---------- 英雄裝備頁 ---------- */
+.gear-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin: 32px 0 40px; }
+.gear {
+  display: flex; flex-direction: column; gap: 16px;
+  background: var(--surface); padding: 28px; border-radius: var(--radius);
+  border-top: 4px solid var(--yellow); box-shadow: 0 10px 30px rgba(0,0,0,.3);
+  transition: transform .3s, box-shadow .3s;
+}
+.gear:hover { transform: translateY(-4px); box-shadow: 0 0 24px rgba(255,215,0,.45); }
+.gear-top { display: flex; gap: 18px; align-items: center; }
+.gear-icon { width: 80px; height: 80px; flex-shrink: 0; border-radius: 20px; }
+.gear h2 { margin: 0 0 4px; font-size: 1.45rem; line-height: 1.3; color: var(--yellow); }
+.gear-tagline { margin: 0; color: #fff; font-weight: 700; }
+.gear-meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.gear-meta div { display: flex; border-radius: 999px; overflow: hidden; font-size: .92rem; border: 2px solid var(--yellow); }
+.gear-meta dt { background: var(--yellow); color: #0E2C72; font-weight: 800; padding: 2px 10px; }
+.gear-meta dd { margin: 0; padding: 2px 12px; color: #fff; }
+.gear-points { margin: 0; padding-left: 1.2em; color: var(--text); }
+.gear-points li { margin-bottom: 4px; }
+.gear-points li::marker { color: var(--yellow); }
+.gear-for { margin: 0; color: var(--muted); }
+.gear-for strong { color: #fff; }
+.gear-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: auto; padding-top: 4px; }
+.gear-actions .btn { padding: 10px 22px; font-size: 1rem; }
+.btn-ghost { background: transparent; color: #fff; border-color: #fff; }
+.btn-ghost:hover { background: rgba(255,255,255,.12); }
+.gear-cta { text-align: center; margin: 0 auto 72px; padding: 28px 20px; max-width: 640px; border: 3px solid var(--yellow); border-radius: var(--radius); background: rgba(14,46,118,.6); }
+.gear-cta p { margin: 0 0 16px; font-size: 1.2rem; font-weight: 800; color: var(--yellow); }
+@media (max-width: 860px) { .gear-list { grid-template-columns: 1fr; } }
+@media (max-width: 680px) {
+  .gear { padding: 22px 18px; }
+  .gear-icon { width: 64px; height: 64px; border-radius: 16px; }
+  .gear h2 { font-size: 1.25rem; }
+  .gear-actions .btn { flex: 1; width: auto; text-align: center; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
