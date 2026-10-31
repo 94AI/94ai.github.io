@@ -70,6 +70,20 @@ def fmt_duration(value):
     return f"{mins} 分鐘"
 
 
+TAG_RE = re.compile(r"^\s*[【\[]([^】\]]{1,24})[】\]]\s*")
+
+
+def split_tag(title):
+    """把標題開頭的【標籤】拆出來：回傳（標籤, 標題）。網站顯示用，不改 Spotify 原始標題。"""
+    m = TAG_RE.match(title)
+    if not m:
+        return "", title
+    tag = re.sub(r"94\s*ai", "", m.group(1), flags=re.I)
+    tag = re.sub(r"\s+", " ", tag).strip(" ｜|・-")
+    rest = title[m.end():].strip()
+    return tag, (rest or title)
+
+
 def load_feed(arg):
     if arg:
         return Path(arg).read_bytes()
@@ -94,7 +108,9 @@ def parse(data):
             except (TypeError, ValueError):
                 date = ""
         lines = to_lines(item.findtext("description") or "")
+        tag, title = split_tag(title)
         eps.append({
+            "tag": tag,
             "title": title,
             "link": link,
             "date": date,
@@ -106,7 +122,9 @@ def parse(data):
 
 def card(ep):
     e = html.escape
-    meta = " ・ ".join(x for x in (ep["date"], ep["duration"]) if x)
+    meta = e(" ・ ".join(x for x in (ep["date"], ep["duration"]) if x))
+    if ep["tag"]:
+        meta = f"<span class=\"ep-tag\">{e(ep['tag'])}</span>" + meta
     first = ep["lines"][0] if ep["lines"] else ""
     excerpt = first if len(first) <= EXCERPT_LEN else first[:EXCERPT_LEN].rstrip() + "…"
     full = "\n".join(f"                <p>{e(ln)}</p>" for ln in ep["lines"])
@@ -120,7 +138,7 @@ def card(ep):
         )
     return (
         "            <article class=\"ep\">\n"
-        f"              <p class=\"ep-meta\">{e(meta)}</p>\n"
+        f"              <p class=\"ep-meta\">{meta}</p>\n"
         f"              <h3>{e(ep['title'])}</h3>\n"
         f"              <p class=\"ep-excerpt\">{e(excerpt)}</p>"
         f"{details}\n"

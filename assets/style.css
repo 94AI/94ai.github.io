@@ -304,6 +304,7 @@ a { color: inherit; }
   border-left: 5px solid var(--yellow); box-shadow: 0 8px 24px rgba(0,0,0,.25);
 }
 .ep-meta { margin: 0; font-size: .92rem; font-weight: 700; color: #9FC2FF; letter-spacing: .02em; }
+.ep-tag { display: inline-block; margin-right: 10px; padding: 1px 10px; border-radius: 999px; background: var(--yellow); color: #0E2C72; font-weight: 800; }
 .ep h3 { margin: 0; font-size: 1.18rem; line-height: 1.45; color: #fff; }
 .ep-excerpt { margin: 0; color: var(--muted); }
 .ep-more summary, .ep-older > summary { cursor: pointer; font-weight: 700; color: var(--yellow); }
