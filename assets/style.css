@@ -300,6 +300,7 @@ a { color: inherit; }
 .channel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; margin-bottom: 20px; border-bottom: 3px solid var(--yellow); }
 .channel-head h2 { margin: 0; font-size: 1.6rem; color: var(--yellow); text-shadow: 0 2px 0 #7A3B00; }
 .channel-head .btn { padding: 8px 20px; font-size: .98rem; }
+.listen-on { display: flex; flex-wrap: wrap; gap: 10px; }
 .ep-count { margin: 0 0 16px; color: var(--muted); }
 .ep-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 .ep {
@@ -327,6 +328,8 @@ a { color: inherit; }
 @media (max-width: 680px) {
   .channel-head h2 { font-size: 1.35rem; }
   .channel-head .btn { width: auto; text-align: center; }
+  .listen-on { width: 100%; }
+  .listen-on .btn { flex: 1 1 auto; padding: 8px 12px; }
   .ep { padding: 18px 16px; }
   .ep-listen { width: 100%; max-width: none; text-align: center; }
 }

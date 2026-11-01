@@ -32,7 +32,9 @@ SITEMAP = ROOT / "sitemap.xml"
 SITE = "https://94ai.com.tw"
 SHOW_URL = "https://open.spotify.com/show/1CwyMTXfiHIjhj9Oq0XThv"
 YOUTUBE_URL = "https://www.youtube.com/@only94ai"
-CSS_VER = "20261101a"         # 與其他頁面的 style.css 版本號一致
+APPLE_URL = "https://podcasts.apple.com/tw/podcast/94ai%E5%B0%B1%E6%98%AF%E6%84%9B/id1887442296"
+KKBOX_URL = "https://podcast.kkbox.com/tw/channel/L-HsHJjN4GogswW-b4"
+CSS_VER = "20261101b"         # 與其他頁面的 style.css 版本號一致
 JS_VER = "20261031e"
 START = "<!-- EPISODES:START -->"
 END = "<!-- EPISODES:END -->"
@@ -229,7 +231,7 @@ def series_jsonld(eps):
         "image": f"{SITE}/images/og-image.jpg",
         "webFeed": RSS_URL,
         "author": {"@type": "Organization", "name": "94AI", "url": f"{SITE}/"},
-        "sameAs": [SHOW_URL, YOUTUBE_URL],
+        "sameAs": [SHOW_URL, APPLE_URL, KKBOX_URL, YOUTUBE_URL],
         "episode": [],
     }
     for ep in eps[:JSONLD_EPISODES]:
