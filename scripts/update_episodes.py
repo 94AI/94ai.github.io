@@ -7,8 +7,12 @@
 
 只會改寫 blog.html 中 <!-- EPISODES:START --> 與 <!-- EPISODES:END --> 之間的內容。
 抓取失敗或讀不到任何集數時，不改動檔案並以錯誤結束。
+
+另外會一併更新：blog.html 的結構化資料（JSONLD 區塊，給 Google 看的 PodcastSeries 資訊）、
+sitemap.xml 中首頁與作戰頻道頁的 lastmod 日期。
 """
 import html
+import json
 import re
 import sys
 import urllib.request
@@ -22,6 +26,11 @@ RSS_URL = "https://anchor.fm/s/10a38ec70/podcast/rss"
 ROOT = Path(__file__).resolve().parent.parent
 PAGE = ROOT / "blog.html"
 HOME = ROOT / "index.html"   # 首頁「作戰頻道」卡片上的最新一集
+SITEMAP = ROOT / "sitemap.xml"
+SITE = "https://94ai.com.tw"
+SHOW_URL = "https://open.spotify.com/show/1CwyMTXfiHIjhj9Oq0XThv"
+YOUTUBE_URL = "https://www.youtube.com/@only94ai"
+JSONLD_EPISODES = 20    # 結構化資料裡列出的最新集數
 START = "<!-- EPISODES:START -->"
 END = "<!-- EPISODES:END -->"
 SHOW_FIRST = 3          # 一開始直接顯示的集數，其餘收進「看更早的集數」
@@ -102,13 +111,14 @@ def parse(data):
         link = (item.findtext("link") or "").strip()
         if not title or not link:
             continue
-        date = ""
+        date = iso = ""
         pub = item.findtext("pubDate")
         if pub:
             try:
-                date = parsedate_to_datetime(pub).astimezone(TAIPEI).strftime("%Y/%m/%d")
+                dt = parsedate_to_datetime(pub).astimezone(TAIPEI)
+                date, iso = dt.strftime("%Y/%m/%d"), dt.strftime("%Y-%m-%d")
             except (TypeError, ValueError):
-                date = ""
+                date = iso = ""
         lines = to_lines(item.findtext("description") or "")
         tag, title = split_tag(title)
         eps.append({
@@ -116,6 +126,7 @@ def parse(data):
             "title": title,
             "link": link,
             "date": date,
+            "iso": iso,
             "duration": fmt_duration(item.findtext(f"{ITUNES}duration")),
             "lines": lines,
         })
@@ -166,6 +177,45 @@ def render(eps):
     return "\n".join(out)
 
 
+def jsonld(eps):
+    """作戰頻道頁的結構化資料：告訴 Google 這是一個 Podcast 節目與它的集數。"""
+    data = {
+        "@context": "https://schema.org",
+        "@type": "PodcastSeries",
+        "name": "94AI就是愛",
+        "url": f"{SITE}/blog.html",
+        "description": "沒有主持人的 Podcast，兩個 AI 自己聊 AI 科技新聞與冷知識，每週二更新。",
+        "inLanguage": "zh-TW",
+        "image": f"{SITE}/images/og-image.jpg",
+        "webFeed": RSS_URL,
+        "author": {"@type": "Organization", "name": "94AI", "url": f"{SITE}/"},
+        "sameAs": [SHOW_URL, YOUTUBE_URL],
+        "episode": [],
+    }
+    for ep in eps[:JSONLD_EPISODES]:
+        item = {"@type": "PodcastEpisode", "name": ep["title"], "url": ep["link"]}
+        if ep["iso"]:
+            item["datePublished"] = ep["iso"]
+        if ep["lines"]:
+            item["description"] = ep["lines"][0]
+        data["episode"].append(item)
+    body = json.dumps(data, ensure_ascii=False, indent=2).replace("</", "<\\/")
+    return f'<script type="application/ld+json">\n{body}\n  </script>'
+
+
+def update_sitemap(eps):
+    if not SITEMAP.exists() or not eps[0]["iso"]:
+        return
+    sm = SITEMAP.read_text(encoding="utf-8")
+    new = sm
+    for page in (f"{SITE}/", f"{SITE}/blog.html"):
+        new = re.sub(rf"(<loc>{re.escape(page)}</loc>\s*<lastmod>)[^<]*(</lastmod>)",
+                     lambda m: m.group(1) + eps[0]["iso"] + m.group(2), new)
+    if new != sm:
+        SITEMAP.write_text(new, encoding="utf-8")
+        print("sitemap.xml 已更新")
+
+
 def main():
     eps = parse(load_feed(sys.argv[1] if len(sys.argv) > 1 else None))
     if not eps:
@@ -178,6 +228,8 @@ def main():
     new = page[:a] + render(eps) + page[b:]
     new = re.sub(r"(<!-- EPCOUNT:START -->).*?(<!-- EPCOUNT:END -->)",
                  lambda m: m.group(1) + str(len(eps)) + m.group(2), new, flags=re.S)
+    new = re.sub(r"(<!-- JSONLD:START -->).*?(<!-- JSONLD:END -->)",
+                 lambda m: m.group(1) + "\n  " + jsonld(eps) + "\n  " + m.group(2), new, flags=re.S)
     if new != page:
         PAGE.write_text(new, encoding="utf-8")
         print(f"已更新：共 {len(eps)} 集")
@@ -193,6 +245,8 @@ def main():
             if new_home != home:
                 HOME.write_text(new_home, encoding="utf-8")
                 print("首頁最新一集已更新")
+
+    update_sitemap(eps)
 
 
 if __name__ == "__main__":
