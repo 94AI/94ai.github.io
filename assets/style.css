@@ -388,6 +388,14 @@ a { color: inherit; }
   .channel { margin-top: 24px; }
 }
 
+/* ---------- 訂閱成功頁 ---------- */
+.thanks-box { max-width: 640px; margin: 32px auto 72px; padding: 32px 28px; text-align: center; border: 3px solid var(--yellow); border-radius: var(--radius); background: rgba(14,46,118,.75); box-shadow: 0 0 24px rgba(255,215,0,.25); }
+.thanks-box p { margin: 0 0 16px; }
+.thanks-tip { font-size: .95rem; color: var(--muted); }
+.thanks-tip strong { color: var(--yellow); }
+.thanks-actions { justify-content: center; margin: 4px 0 24px; }
+.thanks-sign { font-size: 1.3rem; font-weight: 900; color: var(--yellow); margin: 0 !important; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
