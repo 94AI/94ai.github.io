@@ -302,6 +302,7 @@ a { color: inherit; }
 /* ---------- 作戰頻道頁 ---------- */
 .show-intro { max-width: 720px; margin: 24px auto 0; text-align: center; }
 .show-intro p { margin: 0; font-size: 1.1rem; color: var(--text); }
+.show-intro p + p { margin-top: 14px; }
 .show-intro strong { color: var(--yellow); }
 .channel { margin: 40px 0; }
 .channel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 12px; margin-bottom: 20px; border-bottom: 3px solid var(--yellow); }
