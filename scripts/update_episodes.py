@@ -316,6 +316,14 @@ def episode_page(ep, newer, older):
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
   <link rel="stylesheet" href="/assets/style.css?v={CSS_VER}">
   {script_jsonld(data, "  ")}
+  <!-- Google Analytics (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TNTMMX427V"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){{dataLayer.push(arguments);}}
+    gtag('js', new Date());
+    gtag('config', 'G-TNTMMX427V');
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要內容</a>
