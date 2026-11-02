@@ -34,7 +34,7 @@ SHOW_URL = "https://open.spotify.com/show/1CwyMTXfiHIjhj9Oq0XThv"
 YOUTUBE_URL = "https://www.youtube.com/@only94ai"
 APPLE_URL = "https://podcasts.apple.com/tw/podcast/94ai%E5%B0%B1%E6%98%AF%E6%84%9B/id1887442296"
 KKBOX_URL = "https://podcast.kkbox.com/tw/channel/L-HsHJjN4GogswW-b4"
-CSS_VER = "20261101b"         # 與其他頁面的 style.css 版本號一致
+CSS_VER = "20261102a"         # 與其他頁面的 style.css 版本號一致
 JS_VER = "20261031e"
 START = "<!-- EPISODES:START -->"
 END = "<!-- EPISODES:END -->"
@@ -355,6 +355,12 @@ def episode_page(ep, newer, older):
     </div>
   </main>
   <footer class="site-footer">
+    <nav class="footer-social" aria-label="94AI 社群與收聽平台">
+      <a href="https://www.threads.com/@only94ai" target="_blank" rel="noopener">Threads</a>
+      <a href="https://www.instagram.com/only94ai/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.youtube.com/@only94ai" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://open.spotify.com/show/1CwyMTXfiHIjhj9Oq0XThv" target="_blank" rel="noopener">Spotify</a>
+    </nav>
     <p>I AM HERE! ｜ 94AI.COM.TW ｜ ONE FOR ALL © 2026 ｜ BEYOND THE LIMIT!</p>
   </footer>
   <button id="backToTop" type="button" aria-label="回到頂端" title="回到頂端">▲</button>

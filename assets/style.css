@@ -202,6 +202,10 @@ a { color: inherit; }
   font-weight: 700; letter-spacing: .04em;
 }
 .site-footer p { margin: 0; }
+.footer-social { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px; margin: 0 0 14px; }
+.footer-social a { color: #fff; text-decoration: none; font-weight: 800; letter-spacing: .06em; border-bottom: 2px solid transparent; padding-bottom: 2px; }
+.footer-social a:hover, .footer-social a:focus-visible { color: var(--yellow); border-color: var(--yellow); }
+@media (max-width: 480px) { .footer-social { gap: 8px 16px; } .footer-social a { font-size: .92rem; letter-spacing: .02em; } }
 
 /* ---------- 回到頂端按鈕 ---------- */
 #backToTop {
