@@ -16,6 +16,7 @@ import html
 import json
 import re
 import sys
+import unicodedata
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import timedelta, timezone
@@ -34,7 +35,10 @@ SHOW_URL = "https://open.spotify.com/show/1CwyMTXfiHIjhj9Oq0XThv"
 YOUTUBE_URL = "https://www.youtube.com/@only94ai"
 APPLE_URL = "https://podcasts.apple.com/tw/podcast/94ai%E5%B0%B1%E6%98%AF%E6%84%9B/id1887442296"
 KKBOX_URL = "https://podcast.kkbox.com/tw/channel/L-HsHJjN4GogswW-b4"
-CSS_VER = "20261102d"         # 與其他頁面的 style.css 版本號一致
+YT_CHANNEL_ID = "UCIbysevpS1Gb4qYIszT4MPw"
+YT_FEED = f"https://www.youtube.com/feeds/videos.xml?channel_id={YT_CHANNEL_ID}"
+YT_DATA = ROOT / "data" / "youtube.json"   # YouTube 影片清單（每天從頻道 RSS 補上新影片）
+CSS_VER = "20261115a"         # 與其他頁面的 style.css 版本號一致
 JS_VER = "20261031e"
 START = "<!-- EPISODES:START -->"
 END = "<!-- EPISODES:END -->"
@@ -160,6 +164,61 @@ def parse(data):
     return eps
 
 
+# ---------- YouTube 影片對應 ----------
+
+def title_key(title):
+    """比對用的標題：去掉「｜94AI就是愛」、開頭【標籤】、空白與標點。"""
+    t = re.sub(r"[｜|]\s*94AI就是愛\s*$", "", title.strip())
+    t = TAG_RE.sub("", t)
+    t = unicodedata.normalize("NFKC", t).lower()
+    return re.sub(r"[^\w]", "", t)
+
+
+def load_youtube():
+    """讀 data/youtube.json，再從頻道 RSS 補上新影片（抓不到就沿用舊清單）。"""
+    data = {"videos": []}
+    if YT_DATA.exists():
+        data = json.loads(YT_DATA.read_text(encoding="utf-8"))
+    videos = data.setdefault("videos", [])
+    known = {v["id"] for v in videos}
+    try:
+        req = urllib.request.Request(YT_FEED, headers={"User-Agent": "94ai-site-updater"})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            root = ET.fromstring(r.read())
+        ns = {"a": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015"}
+        added = []
+        for entry in root.findall("a:entry", ns):
+            vid = entry.findtext("yt:videoId", namespaces=ns)
+            title = (entry.findtext("a:title", namespaces=ns) or "").strip()
+            if vid and title and vid not in known:
+                added.append({"id": vid, "title": title})
+                known.add(vid)
+        if added:
+            data["videos"] = added + videos
+            YT_DATA.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            print(f"YouTube：新增 {len(added)} 支影片")
+    except Exception as exc:  # 網路問題不影響其他更新
+        print(f"YouTube RSS 讀取失敗，沿用現有清單：{exc}")
+    return data["videos"]
+
+
+def attach_youtube(eps, videos):
+    by_key = {title_key(ep["title"]): ep for ep in eps}
+    by_id = {ep["id"]: ep for ep in eps}
+    matched = 0
+    for v in videos:
+        ep = by_id.get(v.get("match", "")) or by_key.get(title_key(v["title"]))
+        if ep and not ep.get("yt"):
+            ep["yt"] = v["id"]
+            matched += 1
+    unmatched = [v["title"] for v in videos if not any(ep.get("yt") == v["id"] for ep in eps)]
+    print(f"YouTube：{matched} 集有影片版" + (f"，對不到集數：{unmatched}" if unmatched else ""))
+
+
+def yt_watch(ep):
+    return f"https://www.youtube.com/watch?v={ep['yt']}"
+
+
 def ep_path(ep):
     return f"/ep/{ep['id']}.html"
 
@@ -197,7 +256,11 @@ def card(ep):
         f"              <h3><a href=\"{ep_path(ep)}\">{e(ep['title'])}</a></h3>\n"
         f"              <p class=\"ep-excerpt\">{e(excerpt)}</p>"
         f"{details}\n"
-        f"              <a class=\"btn ep-listen\" href=\"{e(ep['link'], quote=True)}\" target=\"_blank\" rel=\"noopener\">收聽這一集</a>\n"
+        "              <div class=\"ep-btns\">\n"
+        f"                <a class=\"btn ep-listen\" href=\"{e(ep['link'], quote=True)}\" target=\"_blank\" rel=\"noopener\">收聽這一集</a>\n"
+        + (f"                <a class=\"btn btn-ghost ep-watch\" href=\"{yt_watch(ep)}\" target=\"_blank\" rel=\"noopener\">看影片版</a>\n"
+           if ep.get("yt") else "")
+        + "              </div>\n"
         "            </article>"
     )
 
@@ -292,6 +355,23 @@ def episode_page(ep, newer, older):
     body_html = "\n".join(body) or f"          <p>{e(ep['title'])}</p>"
     player = (f"          <audio class=\"ep-player\" controls preload=\"none\" src=\"{e(ep['audio'], quote=True)}\"></audio>\n"
               if ep["audio"] else "")
+    video_html = ""
+    yt_btn = ""
+    if ep.get("yt"):
+        data["video"] = {"@type": "VideoObject", "name": ep["title"], "embedUrl": f"https://www.youtube.com/embed/{ep['yt']}",
+                         "url": yt_watch(ep), "thumbnailUrl": f"https://i.ytimg.com/vi/{ep['yt']}/hqdefault.jpg",
+                         "description": summary_text(ep, 300)}
+        if ep["iso"]:
+            data["video"]["uploadDate"] = ep["iso"]
+        yt_btn = f"            <a class=\"btn btn-ghost\" href=\"{yt_watch(ep)}\" target=\"_blank\" rel=\"noopener\">在 YouTube 看影片</a>\n"
+        video_html = (
+            "        <section class=\"ep-video\">\n"
+            "          <h2>影片版</h2>\n"
+            "          <div class=\"embed-video\">\n"
+            f"            <iframe src=\"https://www.youtube-nocookie.com/embed/{ep['yt']}\" title=\"{e(ep['title'], quote=True)}（YouTube 影片版）\" loading=\"lazy\" "
+            "allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>\n"
+            "          </div>\n"
+            "        </section>\n")
     nav = neighbor(older, "‹ 上一集", "ep-prev") + neighbor(newer, "下一集 ›", "ep-next")
     nav_html = f"        <nav class=\"ep-nav\" aria-label=\"其他集數\">\n{nav}        </nav>\n" if nav else ""
 
@@ -348,10 +428,10 @@ def episode_page(ep, newer, older):
           <h1>{e(ep['title'])}</h1>
 {player}          <div class="ep-actions">
             <a class="btn" href="{e(ep['link'], quote=True)}" target="_blank" rel="noopener">在 Spotify 收聽</a>
-            <a class="btn btn-ghost" href="/blog.html">看所有集數</a>
+{yt_btn}            <a class="btn btn-ghost" href="/blog.html">看所有集數</a>
           </div>
         </div>
-        <section class="ep-body">
+{video_html}        <section class="ep-body">
           <h2>這一集在聊什麼</h2>
 {body_html}
         </section>
@@ -430,6 +510,7 @@ def main():
     eps = parse(load_feed(sys.argv[1] if len(sys.argv) > 1 else None))
     if not eps:
         sys.exit("RSS 裡沒有讀到任何集數，不更新頁面。")
+    attach_youtube(eps, load_youtube())
     page = PAGE.read_text(encoding="utf-8")
     if START not in page or END not in page:
         sys.exit("blog.html 找不到集數清單的標記，不更新頁面。")

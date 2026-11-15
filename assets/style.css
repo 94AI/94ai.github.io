@@ -325,7 +325,8 @@ a { color: inherit; }
 .ep-more summary, .ep-older > summary { cursor: pointer; font-weight: 700; color: var(--yellow); }
 .ep-more summary:hover, .ep-older > summary:hover { color: #fff; }
 .ep-more p { margin: 8px 0 0; color: var(--text); font-size: .98rem; }
-.ep-listen { align-self: flex-start; margin-top: auto; padding: 8px 20px; font-size: .98rem; }
+.ep-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
+.ep-btns .btn { padding: 8px 20px; font-size: .98rem; }
 .ep:has(.ep-more[open]) .ep-excerpt { display: none; }
 .ep-older { margin-top: 20px; }
 .ep-older > summary { display: inline-block; padding: 10px 22px; border: 2px solid var(--yellow); border-radius: 10px; margin-bottom: 20px; }
@@ -339,7 +340,7 @@ a { color: inherit; }
   .listen-on { width: 100%; }
   .listen-on .btn { flex: 1 1 auto; padding: 8px 12px; }
   .ep { padding: 18px 16px; }
-  .ep-listen { width: 100%; max-width: none; text-align: center; }
+  .ep-btns .btn { flex: 1 1 0; width: auto; max-width: none; text-align: center; padding: 8px 10px; }
 }
 
 /* ---------- 首頁：入口卡片與自我介紹 ---------- */
@@ -380,6 +381,7 @@ a { color: inherit; }
 .switch-icon { font-size: 2rem; line-height: 1; }
 .switch-title { font-weight: 900; font-size: 1.15rem; color: var(--yellow); }
 .switch-sub { font-size: .9rem; color: rgba(255,255,255,.85); }
+.yt-note a { color: var(--yellow); }
 .yt-note { margin: 14px auto 0; max-width: 860px; text-align: center; color: var(--muted); font-size: .95rem; }
 .channel[hidden] { display: none; }
 @media (min-width: 1000px) { #panel-podcast .ep-list { grid-template-columns: repeat(3, 1fr); } }
@@ -418,6 +420,9 @@ a { color: inherit; }
 .ep-player { width: 100%; margin: 0 0 18px; border-radius: 999px; }
 .ep-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .ep-actions .btn { padding: 10px 22px; font-size: 1rem; }
+.ep-video { margin: 32px 0 0; }
+.ep-video h2 { margin: 0 0 12px; font-size: 1.3rem; color: var(--yellow); text-shadow: 0 2px 0 #7A3B00; }
+.ep-video .embed-video { max-width: none; }
 .ep-body { margin: 32px 0 0; }
 .ep-body h2 { margin: 0 0 12px; font-size: 1.3rem; color: var(--yellow); text-shadow: 0 2px 0 #7A3B00; }
 .ep-body p { margin: 0 0 12px; }
