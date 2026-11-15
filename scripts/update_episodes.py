@@ -36,7 +36,7 @@ YOUTUBE_URL = "https://www.youtube.com/@only94ai"
 APPLE_URL = "https://podcasts.apple.com/tw/podcast/94ai%E5%B0%B1%E6%98%AF%E6%84%9B/id1887442296"
 KKBOX_URL = "https://podcast.kkbox.com/tw/channel/L-HsHJjN4GogswW-b4"
 YT_CHANNEL_ID = "UCIbysevpS1Gb4qYIszT4MPw"
-YT_FEED = f"https://www.youtube.com/feeds/videos.xml?channel_id={YT_CHANNEL_ID}"
+YT_VIDEOS_PAGE = "https://www.youtube.com/@only94ai/videos"
 YT_DATA = ROOT / "data" / "youtube.json"   # YouTube 影片清單（每天從頻道 RSS 補上新影片）
 CSS_VER = "20261115a"         # 與其他頁面的 style.css 版本號一致
 JS_VER = "20261031e"
@@ -174,31 +174,64 @@ def title_key(title):
     return re.sub(r"[^\w]", "", t)
 
 
+def fetch_channel_videos():
+    """讀頻道「影片」頁裡的 ytInitialData，回傳 [(影片代號, 標題)]（YouTube 影片 RSS 目前會回 404，所以改讀頁面）。"""
+    req = urllib.request.Request(YT_VIDEOS_PAGE, headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
+        "Accept-Language": "zh-TW,zh;q=0.9",
+        "Cookie": "CONSENT=YES+1; SOCS=CAI",
+    })
+    with urllib.request.urlopen(req, timeout=30) as r:
+        text = r.read().decode("utf-8", "replace")
+    m = re.search(r"var ytInitialData = (\{.*?\});</script>", text, re.S)
+    if not m:
+        raise ValueError("頻道頁面找不到 ytInitialData")
+    found = []
+
+    def walk(o):
+        if isinstance(o, list):
+            for x in o:
+                walk(x)
+        elif isinstance(o, dict):
+            if "lockupViewModel" in o:
+                v = o["lockupViewModel"]
+                title = (((v.get("metadata") or {}).get("lockupMetadataViewModel") or {}).get("title") or {}).get("content", "")
+                if v.get("contentId") and title:
+                    found.append((v["contentId"], title.strip()))
+            if "videoRenderer" in o:
+                v = o["videoRenderer"]
+                title = "".join(r.get("text", "") for r in (v.get("title") or {}).get("runs", []))
+                if v.get("videoId") and title:
+                    found.append((v["videoId"], title.strip()))
+            for x in o.values():
+                walk(x)
+
+    walk(json.loads(m.group(1)))
+    seen, out = set(), []
+    for vid, title in found:
+        if vid not in seen:
+            seen.add(vid)
+            out.append((vid, title))
+    return out
+
+
 def load_youtube():
-    """讀 data/youtube.json，再從頻道 RSS 補上新影片（抓不到就沿用舊清單）。"""
+    """讀 data/youtube.json，再從頻道影片頁補上新影片（讀不到就沿用舊清單）。"""
     data = {"videos": []}
     if YT_DATA.exists():
         data = json.loads(YT_DATA.read_text(encoding="utf-8"))
     videos = data.setdefault("videos", [])
     known = {v["id"] for v in videos}
     try:
-        req = urllib.request.Request(YT_FEED, headers={"User-Agent": "94ai-site-updater"})
-        with urllib.request.urlopen(req, timeout=30) as r:
-            root = ET.fromstring(r.read())
-        ns = {"a": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015"}
-        added = []
-        for entry in root.findall("a:entry", ns):
-            vid = entry.findtext("yt:videoId", namespaces=ns)
-            title = (entry.findtext("a:title", namespaces=ns) or "").strip()
-            if vid and title and vid not in known:
-                added.append({"id": vid, "title": title})
-                known.add(vid)
+        latest = fetch_channel_videos()
+        added = [{"id": vid, "title": title} for vid, title in latest if vid not in known]
+        print(f"YouTube：頻道頁讀到 {len(latest)} 支影片")
         if added:
             data["videos"] = added + videos
             YT_DATA.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             print(f"YouTube：新增 {len(added)} 支影片")
     except Exception as exc:  # 網路問題不影響其他更新
-        print(f"YouTube RSS 讀取失敗，沿用現有清單：{exc}")
+        print(f"YouTube 頻道頁讀取失敗，沿用現有清單：{exc}")
     return data["videos"]
 
 
